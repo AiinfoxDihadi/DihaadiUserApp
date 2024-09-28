@@ -19,7 +19,7 @@ class CategoryWidget extends StatelessWidget {
 
   Widget buildDefaultComponent(BuildContext context) {
     return SizedBox(
-      width: width ?? context.width() / 4 - 20,
+      width: width ?? context.width() / 2,
       child: Column(
         children: [
           categoryData.categoryImage.validate().endsWith('.svg')
@@ -27,12 +27,15 @@ class CategoryWidget extends StatelessWidget {
                   width: CATEGORY_ICON_SIZE,
                   height: CATEGORY_ICON_SIZE,
                   padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(color: context.cardColor, shape: BoxShape.circle),
+                  decoration: BoxDecoration(
+                      color: context.cardColor, shape: BoxShape.circle),
                   child: SvgPicture.network(
                     categoryData.categoryImage.validate(),
                     height: CATEGORY_ICON_SIZE,
                     width: CATEGORY_ICON_SIZE,
-                    color: appStore.isDarkMode ? Colors.white : categoryData.color.validate(value: '000').toColor(),
+                    color: appStore.isDarkMode
+                        ? Colors.white
+                        : categoryData.color.validate(value: '000').toColor(),
                     placeholderBuilder: (context) => PlaceHolderWidget(
                       height: CATEGORY_ICON_SIZE,
                       width: CATEGORY_ICON_SIZE,
@@ -41,11 +44,17 @@ class CategoryWidget extends StatelessWidget {
                   ).paddingAll(10),
                 )
               : Container(
+                  height: 150,
+                  width: 300,
                   padding: EdgeInsets.all(14),
-                  decoration: BoxDecoration(color: appStore.isDarkMode ? Colors.white24 : context.cardColor, shape: BoxShape.circle),
+                  decoration: BoxDecoration(
+                    color: appStore.isDarkMode
+                        ? Colors.white24
+                        : context.cardColor,
+                  ),
                   child: CachedImageWidget(
                     url: categoryData.categoryImage.validate(),
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                     width: 40,
                     height: 40,
                     circle: true,

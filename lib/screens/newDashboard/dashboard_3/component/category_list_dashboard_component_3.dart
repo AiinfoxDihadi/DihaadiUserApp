@@ -11,7 +11,8 @@ class CategoryListDashboardComponent3 extends StatelessWidget {
   final List<CategoryData> categoryList;
   final String listTiTle;
 
-  CategoryListDashboardComponent3({required this.categoryList, this.listTiTle = ''});
+  CategoryListDashboardComponent3(
+      {required this.categoryList, this.listTiTle = ''});
 
   @override
   Widget build(BuildContext context) {

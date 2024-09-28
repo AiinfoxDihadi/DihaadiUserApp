@@ -1,4 +1,4 @@
-const appLogo = 'assets/ic_app_logo.png';
+const appLogo = 'assets/ic_app_logo.jpeg';
 
 //region NewDashboard
 const grid = "assets/newDashboard/grid.png";
@@ -102,3 +102,7 @@ const ic_password = 'assets/icons/ic_password.png';
 const ic_down_arrow = 'assets/icons/ic_down_arrow.png';
 const ic_right = 'assets/icons/ic_right.png';
 const ic_plus = 'assets/icons/ic_plus.png';
+const ic_phone = 'assets/icons/ic_phone.png';
+const ic_kaamwaali = 'assets/images/kaamwali_1.png';
+
+

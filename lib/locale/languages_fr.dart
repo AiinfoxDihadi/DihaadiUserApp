@@ -1860,4 +1860,13 @@ String get yourWithdrawalRequestHasBeenSuccessfullySubmitted => 'Votre demande d
 
   @override
   String get fullNameOnBankAccount => 'Nom complet sur le compte bancaire';
+  
+  @override
+  String get otp => 'Bureau du Procureur';
+  
+  @override
+  String get login => 'se connecter';
+  
+  @override
+  String get didntReceiveOtp => throw UnimplementedError();
 }

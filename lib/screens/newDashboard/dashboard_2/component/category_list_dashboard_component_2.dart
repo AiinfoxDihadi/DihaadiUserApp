@@ -15,10 +15,12 @@ class CategoryListDashboardComponent2 extends StatefulWidget {
   CategoryListDashboardComponent2({this.categoryList});
 
   @override
-  _CategoryListDashboardComponent2State createState() => _CategoryListDashboardComponent2State();
+  _CategoryListDashboardComponent2State createState() =>
+      _CategoryListDashboardComponent2State();
 }
 
-class _CategoryListDashboardComponent2State extends State<CategoryListDashboardComponent2> {
+class _CategoryListDashboardComponent2State
+    extends State<CategoryListDashboardComponent2> {
   int currentIndex = 0;
 
   @override
@@ -59,7 +61,11 @@ class _CategoryListDashboardComponent2State extends State<CategoryListDashboardC
             return GestureDetector(
               onTap: () {
                 setState(() => currentIndex = i);
-                ViewAllServiceScreen(categoryId: data.id.validate(), categoryName: data.name, isFromCategory: true).launch(context);
+                ViewAllServiceScreen(
+                        categoryId: data.id.validate(),
+                        categoryName: data.name,
+                        isFromCategory: true)
+                    .launch(context);
               },
               child: CategoryDashboardComponent2(
                 categoryData: data,

@@ -36,7 +36,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   void init() async {
-    future = getCategoryListWithPagination(page, categoryList: categoryList, lastPageCallBack: (val) {
+    future = getCategoryListWithPagination(page, categoryList: categoryList,
+        lastPageCallBack: (val) {
       isLastPage = val;
     });
     if (page == 1) {
@@ -62,7 +63,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
         textColor: Colors.white,
         textSize: APP_BAR_TEXT_SIZE,
         color: primaryColor,
-        systemUiOverlayStyle: SystemUiOverlayStyle(statusBarIconBrightness: appStore.isDarkMode ? Brightness.light : Brightness.light, statusBarColor: context.primaryColor),
+        systemUiOverlayStyle: SystemUiOverlayStyle(
+            statusBarIconBrightness:
+                appStore.isDarkMode ? Brightness.light : Brightness.light,
+            statusBarColor: context.primaryColor),
         showBack: Navigator.canPop(context),
         backWidget: BackWidget(),
       ),
@@ -103,22 +107,44 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   }
                 },
                 children: [
+                  10.height,
+                  // GridView.count(
+                  //   mainAxisSpacing: 15,
+                  //   crossAxisSpacing: 15,
+                  //   physics: NeverScrollableScrollPhysics(),
+                  //   shrinkWrap: true,
+                  //   crossAxisCount: 2,
+                  //   children: List.generate(50, (index) {
+                  //     return Container(
+                  //       decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(15),
+                  //           border: Border.all(color: Color(0xffEBEBEB))),
+                  //     );
+                  //   }),
+                  // ),
                   AnimatedWrap(
                     key: key,
                     runSpacing: 16,
                     spacing: 16,
                     itemCount: snap.length,
                     listAnimationType: ListAnimationType.FadeIn,
-                    fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),
-                    scaleConfiguration: ScaleConfiguration(duration: 300.milliseconds, delay: 50.milliseconds),
+                    fadeInConfiguration:
+                        FadeInConfiguration(duration: 2.seconds),
+                    scaleConfiguration: ScaleConfiguration(
+                        duration: 300.milliseconds, delay: 50.milliseconds),
                     itemBuilder: (_, index) {
                       CategoryData data = snap[index];
 
                       return GestureDetector(
                         onTap: () {
-                          ViewAllServiceScreen(categoryId: data.id.validate(), categoryName: data.name, isFromCategory: true).launch(context);
+                          ViewAllServiceScreen(
+                                  categoryId: data.id.validate(),
+                                  categoryName: data.name,
+                                  isFromCategory: true)
+                              .launch(context);
                         },
-                        child: CategoryWidget(categoryData: data, width: context.width() / 4 - 24),
+                        child: CategoryWidget(
+                            categoryData: data, width: context.width() / 3),
                       );
                     },
                   ).center(),
@@ -140,7 +166,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
               );
             },
           ),
-          Observer(builder: (BuildContext context) => LoaderWidget().visible(appStore.isLoading.validate())),
+          Observer(
+              builder: (BuildContext context) =>
+                  LoaderWidget().visible(appStore.isLoading.validate())),
         ],
       ),
     );

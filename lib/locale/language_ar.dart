@@ -1861,4 +1861,13 @@ String get yourWithdrawalRequestHasBeenSuccessfullySubmitted => 'لقد تم إ�
 
   @override
   String get fullNameOnBankAccount => 'الاسم الكامل على الحساب البنكي';
+  
+  @override
+  String get otp => 'مكتب المدعي العام';
+  
+  @override
+  String get login => throw UnimplementedError();
+  
+  @override
+  String get didntReceiveOtp => '';
 }

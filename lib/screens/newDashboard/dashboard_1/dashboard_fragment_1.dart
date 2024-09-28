@@ -1,5 +1,6 @@
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/screens/newDashboard/dashboard_1/shimmer/dashboard_shimmer_1.dart';
+import 'package:booking_system_flutter/utils/images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -40,7 +41,10 @@ class _DashboardFragment1State extends State<DashboardFragment1> {
   }
 
   void init() async {
-    future = userDashboard(isCurrentLocation: appStore.isCurrentLocation, lat: getDoubleAsync(LATITUDE), long: getDoubleAsync(LONGITUDE));
+    future = userDashboard(
+        isCurrentLocation: appStore.isCurrentLocation,
+        lat: getDoubleAsync(LATITUDE),
+        long: getDoubleAsync(LONGITUDE));
   }
 
   @override
@@ -102,21 +106,28 @@ class _DashboardFragment1State extends State<DashboardFragment1> {
                         setState(() {});
                       },
                     ),
-                    BookingConfirmedComponent1(upcomingConfirmedBooking: snap.upcomingData),
+                    BookingConfirmedComponent1(
+                        upcomingConfirmedBooking: snap.upcomingData),
                     16.height,
-                    CategoryComponent(categoryList: snap.category.validate(), isNewDashboard: true),
+                    CategoryComponent(
+                        categoryList: snap.category.validate(),
+                        isNewDashboard: true),
                     16.height,
-                    ServiceListDashboardComponent1(serviceList: snap.service.validate()),
+                    ServiceListDashboardComponent1(
+                        serviceList: snap.service.validate()),
                     16.height,
-                    FeatureServicesDashboardComponent1(serviceList: snap.featuredServices.validate()),
+                    FeatureServicesDashboardComponent1(
+                        serviceList: snap.featuredServices.validate()),
                     16.height,
-                    if (appConfigurationStore.jobRequestStatus) NewJobRequestDashboardComponent1()
+                    if (appConfigurationStore.jobRequestStatus)
+                      NewJobRequestDashboardComponent1()
                   ],
                 );
               });
             },
           ),
-          Observer(builder: (context) => LoaderWidget().visible(appStore.isLoading)),
+          Observer(
+              builder: (context) => LoaderWidget().visible(appStore.isLoading)),
         ],
       ),
     );

@@ -1,7 +1,8 @@
 import 'package:nb_utils/nb_utils.dart';
 
 /// DO NOT CHANGE THIS PACKAGE NAME
-var appPackageName = isAndroid ? 'com.iqonic.servicebooking' : 'com.iqonic.user';
+var appPackageName =
+    isAndroid ? 'com.iqonic.servicebooking' : 'com.iqonic.user';
 
 //region Common Configs
 const DEFAULT_FIREBASE_PASSWORD = '12345678';
@@ -124,9 +125,11 @@ const APPLE_FAMILY_NAME = 'APPLE_FAMILY_NAME';
 
 const BOOKING_ID_CLOSED_ = 'BOOKING_ID_CLOSED_';
 const LAST_APP_CONFIGURATION_SYNCED_TIME = 'LAST_APP_CONFIGURATION_SYNCED_TIME';
-const IS_APP_CONFIGURATION_SYNCED_AT_LEAST_ONCE = 'IS_APP_CONFIGURATION_SYNCED_AT_LEAST_ONCE';
+const IS_APP_CONFIGURATION_SYNCED_AT_LEAST_ONCE =
+    'IS_APP_CONFIGURATION_SYNCED_AT_LEAST_ONCE';
 const LAST_USER_DETAILS_SYNCED_TIME = 'LAST_USER_DETAILS_SYNCED_TIME';
-const IS_SUBSCRIBED_FOR_PUSH_NOTIFICATION = 'IS_SUBSCRIBED_FOR_PUSH_NOTIFICATION';
+const IS_SUBSCRIBED_FOR_PUSH_NOTIFICATION =
+    'IS_SUBSCRIBED_FOR_PUSH_NOTIFICATION';
 //endregion
 
 const ADD_BOOKING = 'add_booking';
@@ -286,14 +289,14 @@ const GOOGLE_MAP_PREFIX = 'https://www.google.com/maps/search/?api=1&query=';
 
 //endregion
 
-SlideConfiguration sliderConfigurationGlobal = SlideConfiguration(duration: 400.milliseconds, delay: 50.milliseconds);
+SlideConfiguration sliderConfigurationGlobal =
+    SlideConfiguration(duration: 400.milliseconds, delay: 50.milliseconds);
 
 // region JOB REQUEST STATUS
 const JOB_REQUEST_STATUS_REQUESTED = "requested";
 const JOB_REQUEST_STATUS_ACCEPTED = "accepted";
 const JOB_REQUEST_STATUS_ASSIGNED = "assigned";
 // endregion
-
 
 const INACTIVE = 'Inactive';
 const ACTIVE = 'Active';

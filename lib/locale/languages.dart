@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 abstract class BaseLanguage {
-  static BaseLanguage of(BuildContext context) => Localizations.of<BaseLanguage>(context, BaseLanguage)!;
+  static BaseLanguage of(BuildContext context) =>
+      Localizations.of<BaseLanguage>(context, BaseLanguage)!;
 
   String get walkTitle1;
 
@@ -37,7 +38,7 @@ abstract class BaseLanguage {
 
   String get alreadyHaveAccountTxt;
 
-  String get rememberMe;
+  String get otp;
 
   String get resetPassword;
 
@@ -1240,4 +1241,8 @@ abstract class BaseLanguage {
   String get btnSave;
 
   String get fullNameOnBankAccount;
+
+  String get login;
+
+  String get didntReceiveOtp;
 }

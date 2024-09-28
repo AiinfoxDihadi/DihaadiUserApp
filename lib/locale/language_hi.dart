@@ -1853,4 +1853,14 @@ String get yourWithdrawalRequestHasBeenSuccessfullySubmitted => 'आपका �
 
   @override
   String get fullNameOnBankAccount => 'बैंक खाते पर पूरा नाम';
+  
+  @override
+  String get otp => 'ओ.टी.पी';
+  
+  @override
+  String get login => 'लॉग इन करें';
+  
+  @override
+  // TODO: implement didntReceiveOtp
+  String get didntReceiveOtp => throw UnimplementedError();
 }
