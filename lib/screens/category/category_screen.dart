@@ -108,20 +108,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 },
                 children: [
                   10.height,
-                  // GridView.count(
-                  //   mainAxisSpacing: 15,
-                  //   crossAxisSpacing: 15,
-                  //   physics: NeverScrollableScrollPhysics(),
-                  //   shrinkWrap: true,
-                  //   crossAxisCount: 2,
-                  //   children: List.generate(50, (index) {
-                  //     return Container(
-                  //       decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(15),
-                  //           border: Border.all(color: Color(0xffEBEBEB))),
-                  //     );
-                  //   }),
-                  // ),
                   AnimatedWrap(
                     key: key,
                     runSpacing: 16,

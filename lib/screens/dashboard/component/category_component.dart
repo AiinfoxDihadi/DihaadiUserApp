@@ -37,9 +37,12 @@ class CategoryComponentState extends State<CategoryComponent> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ViewAllLabel(
-          label: widget.isNewDashboard ? language.lblCategory : language.category,
+          label:
+              widget.isNewDashboard ? language.lblCategory : language.category,
           list: widget.categoryList!,
-          trailingTextStyle: widget.isNewDashboard ? boldTextStyle(color: primaryColor, size: 12) : null,
+          trailingTextStyle: widget.isNewDashboard
+              ? boldTextStyle(color: primaryColor, size: 12)
+              : null,
           onTap: () {
             CategoryScreen().launch(context).then((value) {
               setStatusBarColor(Colors.transparent);
@@ -54,7 +57,11 @@ class CategoryComponentState extends State<CategoryComponent> {
             CategoryData data = widget.categoryList![i];
             return GestureDetector(
               onTap: () {
-                ViewAllServiceScreen(categoryId: data.id.validate(), categoryName: data.name, isFromCategory: true).launch(context);
+                ViewAllServiceScreen(
+                        categoryId: data.id.validate(),
+                        categoryName: data.name,
+                        isFromCategory: true)
+                    .launch(context);
               },
               child: CategoryWidget(categoryData: data),
             );

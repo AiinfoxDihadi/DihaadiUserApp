@@ -23,10 +23,12 @@ class SliderLocationComponent extends StatefulWidget {
   final List<ServiceData>? featuredList;
   final VoidCallback? callback;
 
-  SliderLocationComponent({required this.sliderList, this.callback, this.featuredList});
+  SliderLocationComponent(
+      {required this.sliderList, this.callback, this.featuredList});
 
   @override
-  State<SliderLocationComponent> createState() => _SliderLocationComponentState();
+  State<SliderLocationComponent> createState() =>
+      _SliderLocationComponentState();
 }
 
 class _SliderLocationComponentState extends State<SliderLocationComponent> {
@@ -37,14 +39,17 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
   @override
   void initState() {
     super.initState();
-    if (getBoolAsync(AUTO_SLIDER_STATUS, defaultValue: true) && widget.sliderList.length >= 2) {
-      _timer = Timer.periodic(Duration(seconds: DASHBOARD_AUTO_SLIDER_SECOND), (Timer timer) {
+    if (getBoolAsync(AUTO_SLIDER_STATUS, defaultValue: true) &&
+        widget.sliderList.length >= 2) {
+      _timer = Timer.periodic(Duration(seconds: DASHBOARD_AUTO_SLIDER_SECOND),
+          (Timer timer) {
         if (_currentPage < widget.sliderList.length - 1) {
           _currentPage++;
         } else {
           _currentPage = 0;
         }
-        sliderPageController.animateToPage(_currentPage, duration: Duration(milliseconds: 950), curve: Curves.easeOutQuart);
+        sliderPageController.animateToPage(_currentPage,
+            duration: Duration(milliseconds: 950), curve: Curves.easeOutQuart);
       });
 
       sliderPageController.addListener(() {
@@ -73,15 +78,26 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
                     widget.sliderList.length,
                     (index) {
                       SliderModel data = widget.sliderList[index];
-                      return CachedImageWidget(url: data.sliderImage.validate(), height: 250, width: context.width(), fit: BoxFit.cover).onTap(() {
+                      return CachedImageWidget(
+                              url: data.sliderImage.validate(),
+                              height: 250,
+                              width: context.width(),
+                              fit: BoxFit.cover)
+                          .onTap(() {
                         if (data.type == SERVICE) {
-                          ServiceDetailScreen(serviceId: data.typeId.validate().toInt()).launch(context, pageRouteAnimation: PageRouteAnimation.Fade);
+                          ServiceDetailScreen(
+                                  serviceId: data.typeId.validate().toInt())
+                              .launch(context,
+                                  pageRouteAnimation: PageRouteAnimation.Fade);
                         }
                       });
                     },
                   ),
                 )
-              : CachedImageWidget(url: '', height: 250, width: context.width()),
+              : CachedImageWidget(
+                  url: 'https://kaamwalibais.com/img/maid.png',
+                  height: 250,
+                  width: context.width()),
           if (widget.sliderList.length.validate() > 1)
             Positioned(
               bottom: 34,
@@ -106,14 +122,17 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
               top: context.statusBarHeight + 16,
               right: 16,
               child: Container(
-                decoration: boxDecorationDefault(color: context.cardColor, shape: BoxShape.circle),
+                decoration: boxDecorationDefault(
+                    color: context.cardColor, shape: BoxShape.circle),
                 height: 36,
                 padding: EdgeInsets.all(8),
                 width: 36,
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    ic_notification.iconImage(size: 24, color: primaryColor).center(),
+                    ic_notification
+                        .iconImage(size: 24, color: primaryColor)
+                        .center(),
                     Observer(builder: (context) {
                       return Positioned(
                         top: -20,
@@ -122,9 +141,12 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
                             ? Container(
                                 padding: EdgeInsets.all(4),
                                 child: FittedBox(
-                                  child: Text(appStore.unreadCount.toString(), style: primaryTextStyle(size: 12, color: Colors.white)),
+                                  child: Text(appStore.unreadCount.toString(),
+                                      style: primaryTextStyle(
+                                          size: 12, color: Colors.white)),
                                 ),
-                                decoration: boxDecorationDefault(color: Colors.red, shape: BoxShape.circle),
+                                decoration: boxDecorationDefault(
+                                    color: Colors.red, shape: BoxShape.circle),
                               )
                             : Offstage(),
                       );
@@ -174,16 +196,25 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          ic_location.iconImage(color: appStore.isDarkMode ? Colors.white : Colors.black),
+                          ic_location.iconImage(
+                              color: appStore.isDarkMode
+                                  ? Colors.white
+                                  : Colors.black),
                           8.width,
                           Text(
-                            appStore.isCurrentLocation ? getStringAsync(CURRENT_ADDRESS) : language.lblLocationOff,
+                            appStore.isCurrentLocation
+                                ? getStringAsync(CURRENT_ADDRESS)
+                                : language.lblLocationOff,
                             style: secondaryTextStyle(),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ).expand(),
                           8.width,
-                          ic_active_location.iconImage(size: 24, color: appStore.isCurrentLocation ? primaryColor : grey),
+                          ic_active_location.iconImage(
+                              size: 24,
+                              color: appStore.isCurrentLocation
+                                  ? primaryColor
+                                  : grey),
                         ],
                       ),
                     ),
@@ -198,7 +229,8 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
               16.width,
               GestureDetector(
                 onTap: () {
-                  SearchServiceScreen(featuredList: widget.featuredList).launch(context);
+                  SearchServiceScreen(featuredList: widget.featuredList)
+                      .launch(context);
                 },
                 child: Container(
                   padding: EdgeInsets.all(16),

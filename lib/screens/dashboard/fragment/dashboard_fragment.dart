@@ -1,3 +1,4 @@
+import 'package:booking_system_flutter/aiinfox/screens/category.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/dashboard_model.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
@@ -6,7 +7,9 @@ import 'package:booking_system_flutter/screens/dashboard/component/featured_serv
 import 'package:booking_system_flutter/screens/dashboard/component/service_list_component.dart';
 import 'package:booking_system_flutter/screens/dashboard/component/slider_and_location_component.dart';
 import 'package:booking_system_flutter/screens/dashboard/shimmer/dashboard_shimmer.dart';
+import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
+import 'package:booking_system_flutter/utils/images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -31,16 +34,19 @@ class _DashboardFragmentState extends State<DashboardFragment> {
 
     setStatusBarColor(transparentColor, delayInMilliSeconds: 800);
 
-    LiveStream().on(LIVESTREAM_UPDATE_DASHBOARD, (p0) {
-      init();
-      appStore.setLoading(true);
+    // LiveStream().on(LIVESTREAM_UPDATE_DASHBOARD, (p0) {
+    //   init();
+    //   appStore.setLoading(true);
 
-      setState(() {});
-    });
+    //   setState(() {});
+    // });
   }
 
   void init() async {
-    future = userDashboard(isCurrentLocation: appStore.isCurrentLocation, lat: getDoubleAsync(LATITUDE), long: getDoubleAsync(LONGITUDE));
+    future = userDashboard(
+        isCurrentLocation: appStore.isCurrentLocation,
+        lat: getDoubleAsync(LATITUDE),
+        long: getDoubleAsync(LONGITUDE));
   }
 
   @override
@@ -103,19 +109,42 @@ class _DashboardFragmentState extends State<DashboardFragment> {
                       },
                     ),
                     30.height,
-                    PendingBookingComponent(upcomingConfirmedBooking: snap.upcomingData),
-                    CategoryComponent(categoryList: snap.category.validate()),
+                    PendingBookingComponent(
+                        upcomingConfirmedBooking: snap.upcomingData),
+                    15.height,
+                    Center(child: Image.asset(ic_kaamwaali, scale: 2.5)),
+                    Center(
+                      child: Text(
+                        'Kaamwali',
+                        style: boldTextStyle(size: 25),
+                      ),
+                    ),
+                    AppButton(
+                      elevation: 6,
+                      margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+                      text: 'Next',
+                      color: primaryColor,
+                      textColor: Colors.white,
+                      width: context.width() - context.navigationBarHeight,
+                      onTap: () {
+                        CategoryNewWidget().launch(context);
+                      },
+                    ),
+                    // CategoryComponent(categoryList: snap.category.validate()),
                     16.height,
-                    FeaturedServiceListComponent(serviceList: snap.featuredServices.validate()),
-                    ServiceListComponent(serviceList: snap.service.validate()),
+                    // FeaturedServiceListComponent(
+                    //     serviceList: snap.featuredServices.validate()),
+                    // ServiceListComponent(serviceList: snap.service.validate()),
                     16.height,
-                    if (appConfigurationStore.jobRequestStatus) NewJobRequestComponent(),
+                    if (appConfigurationStore.jobRequestStatus)
+                      NewJobRequestComponent(),
                   ],
                 );
               });
             },
           ),
-          Observer(builder: (context) => LoaderWidget().visible(appStore.isLoading)),
+          Observer(
+              builder: (context) => LoaderWidget().visible(appStore.isLoading)),
         ],
       ),
     );

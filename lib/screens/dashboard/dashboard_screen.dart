@@ -1,3 +1,4 @@
+import 'package:booking_system_flutter/aiinfox/screens/category.dart';
 import 'package:booking_system_flutter/component/image_border_component.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/screens/auth/sign_in_screen.dart';
@@ -50,9 +51,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
         appStore.setDarkMode(context.platformBrightness() == Brightness.dark);
       }
 
-      View.of(context).platformDispatcher.onPlatformBrightnessChanged = () async {
+      View.of(context).platformDispatcher.onPlatformBrightnessChanged =
+          () async {
         if (getIntAsync(THEME_MODE_INDEX) == THEME_MODE_SYSTEM) {
-          appStore.setDarkMode(MediaQuery.of(context).platformBrightness == Brightness.light);
+          appStore.setDarkMode(
+              MediaQuery.of(context).platformBrightness == Brightness.light);
         }
       };
     });
@@ -73,7 +76,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         handleNotificationClick(message);
       });
 
-      FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+      FirebaseMessaging.instance
+          .getInitialMessage()
+          .then((RemoteMessage? message) {
         //Handle onClick Notification
         if (message != null) {
           log("data 2 ==> ${message.data}");
@@ -139,24 +144,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
           opacity: 1,
           duration: Duration(milliseconds: 500),
           child: [
-            Observer(
-              builder: (context) {
-                if (appConfigurationStore.userDashboardType == DASHBOARD_1) {
-                  return DashboardFragment1();
-                } else if (appConfigurationStore.userDashboardType == DASHBOARD_2) {
-                  return DashboardFragment2();
-                } else if (appConfigurationStore.userDashboardType == DASHBOARD_3) {
-                  return DashboardFragment3();
-                } else if (appConfigurationStore.userDashboardType == DASHBOARD_4) {
-                  return DashboardFragment4();
-                } else {
-                  return DashboardFragment();
-                }
+            Observer(builder: (context) {
+              if (appConfigurationStore.userDashboardType == DASHBOARD_1) {
+                return DashboardFragment1();
+              } else if (appConfigurationStore.userDashboardType ==
+                  DASHBOARD_2) {
+                return DashboardFragment2();
+              } else if (appConfigurationStore.userDashboardType ==
+                  DASHBOARD_3) {
+                return DashboardFragment3();
+              } else if (appConfigurationStore.userDashboardType ==
+                  DASHBOARD_4) {
+                return DashboardFragment4();
+              } else {
+                return DashboardFragment();
               }
-            ),
-            Observer(builder: (context) => appStore.isLoggedIn ? BookingFragment() : SignInScreen(isFromDashboard: true)),
+            }),
+            Observer(
+                builder: (context) => appStore.isLoggedIn
+                    ? BookingFragment()
+                    : SignInScreen(isFromDashboard: true)),
             CategoryScreen(),
-            Observer(builder: (context) => appStore.isLoggedIn ? ChatListScreen() : SignInScreen(isFromDashboard: true)),
+            Observer(
+                builder: (context) => appStore.isLoggedIn
+                    ? ChatListScreen()
+                    : SignInScreen(isFromDashboard: true)),
             ProfileFragment(),
           ][currentIndex],
         ),
@@ -167,7 +179,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             data: NavigationBarThemeData(
               backgroundColor: context.primaryColor.withOpacity(0.02),
               indicatorColor: context.primaryColor.withOpacity(0.1),
-              labelTextStyle: WidgetStateProperty.all(primaryTextStyle(size: 12)),
+              labelTextStyle:
+                  WidgetStateProperty.all(primaryTextStyle(size: 12)),
               surfaceTintColor: Colors.transparent,
               shadowColor: Colors.transparent,
             ),
@@ -181,12 +194,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 NavigationDestination(
                   icon: ic_ticket.iconImage(color: appTextSecondaryColor),
-                  selectedIcon: ic_ticket.iconImage(color: context.primaryColor),
+                  selectedIcon:
+                      ic_ticket.iconImage(color: context.primaryColor),
                   label: language.booking,
                 ),
                 NavigationDestination(
                   icon: ic_category.iconImage(color: appTextSecondaryColor),
-                  selectedIcon: ic_category.iconImage(color: context.primaryColor),
+                  selectedIcon:
+                      ic_category.iconImage(color: context.primaryColor),
                   label: language.category,
                 ),
                 NavigationDestination(
@@ -196,11 +211,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 Observer(builder: (context) {
                   return NavigationDestination(
-                    icon: (appStore.isLoggedIn && appStore.userProfileImage.isNotEmpty)
-                        ? IgnorePointer(ignoring: true, child: ImageBorder(src: appStore.userProfileImage, height: 26))
+                    icon: (appStore.isLoggedIn &&
+                            appStore.userProfileImage.isNotEmpty)
+                        ? IgnorePointer(
+                            ignoring: true,
+                            child: ImageBorder(
+                                src: appStore.userProfileImage, height: 26))
                         : ic_profile2.iconImage(color: appTextSecondaryColor),
-                    selectedIcon: (appStore.isLoggedIn && appStore.userProfileImage.isNotEmpty)
-                        ? IgnorePointer(ignoring: true, child: ImageBorder(src: appStore.userProfileImage, height: 26))
+                    selectedIcon: (appStore.isLoggedIn &&
+                            appStore.userProfileImage.isNotEmpty)
+                        ? IgnorePointer(
+                            ignoring: true,
+                            child: ImageBorder(
+                                src: appStore.userProfileImage, height: 26))
                         : ic_profile2.iconImage(color: context.primaryColor),
                     label: language.profile,
                   );

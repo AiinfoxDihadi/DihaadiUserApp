@@ -19,7 +19,7 @@ class CategoryWidget extends StatelessWidget {
 
   Widget buildDefaultComponent(BuildContext context) {
     return SizedBox(
-      width: width ?? context.width() / 2,
+      width: width ?? context.width() / 2 - 26,
       child: Column(
         children: [
           categoryData.categoryImage.validate().endsWith('.svg')

@@ -18,10 +18,14 @@ class CategoryDashboardComponent3 extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        ViewAllServiceScreen(categoryId: categoryData.id.validate(), categoryName: categoryData.name.validate(), isFromCategory: true).launch(context);
+        ViewAllServiceScreen(
+                categoryId: categoryData.id.validate(),
+                categoryName: categoryData.name.validate(),
+                isFromCategory: true)
+            .launch(context);
       },
       child: SizedBox(
-        width: width ?? context.width() / 4 - 8,
+        width: width ?? context.width() / 4 - 24,
         child: Column(
           children: [
             categoryData.categoryImage.validate().endsWith('.svg')
@@ -40,7 +44,11 @@ class CategoryDashboardComponent3 extends StatelessWidget {
                           categoryData.categoryImage.validate(),
                           height: CATEGORY_ICON_SIZE,
                           width: CATEGORY_ICON_SIZE,
-                          color: appStore.isDarkMode ? Colors.white : categoryData.color.validate(value: '000').toColor(),
+                          color: appStore.isDarkMode
+                              ? Colors.white
+                              : categoryData.color
+                                  .validate(value: '000')
+                                  .toColor(),
                           placeholderBuilder: (context) => PlaceHolderWidget(
                             height: CATEGORY_ICON_SIZE,
                             width: CATEGORY_ICON_SIZE,
@@ -62,7 +70,9 @@ class CategoryDashboardComponent3 extends StatelessWidget {
                     padding: EdgeInsets.all(14),
                     width: width ?? context.width() / 4 - 8,
                     decoration: BoxDecoration(
-                      color: appStore.isDarkMode ? Colors.white24 : context.cardColor,
+                      color: appStore.isDarkMode
+                          ? Colors.white24
+                          : context.cardColor,
                       shape: BoxShape.rectangle,
                       borderRadius: radius(8),
                     ),
