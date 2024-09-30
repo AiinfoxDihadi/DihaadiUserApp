@@ -1,14 +1,15 @@
 import 'package:booking_system_flutter/component/back_widget.dart';
+import 'package:booking_system_flutter/component/cached_image_widget.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/category_model.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:booking_system_flutter/screens/category/shimmer/category_shimmer.dart';
-import 'package:booking_system_flutter/screens/dashboard/component/category_widget.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../component/empty_error_state_widget.dart';
@@ -108,19 +109,17 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 },
                 children: [
                   10.height,
-                  AnimatedWrap(
-                    key: key,
-                    runSpacing: 16,
-                    spacing: 16,
+                  GridView.builder(
+                    padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                     itemCount: snap.length,
-                    listAnimationType: ListAnimationType.FadeIn,
-                    fadeInConfiguration:
-                        FadeInConfiguration(duration: 2.seconds),
-                    scaleConfiguration: ScaleConfiguration(
-                        duration: 300.milliseconds, delay: 50.milliseconds),
-                    itemBuilder: (_, index) {
-                      CategoryData data = snap[index];
-
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 15,
+                        crossAxisSpacing: 15),
+                    itemBuilder: (BuildContext context, int i) {
+                      CategoryData data = snap[i];
                       return GestureDetector(
                         onTap: () {
                           ViewAllServiceScreen(
@@ -129,11 +128,65 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                   isFromCategory: true)
                               .launch(context);
                         },
-                        child: CategoryWidget(
-                            categoryData: data, width: context.width() / 3),
+                        child: Container(
+                          child: Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Color(0xffDADAED).withOpacity(0.3),
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        topRight: Radius.circular(10))),
+                                height:
+                                    MediaQuery.sizeOf(context).height * 0.14,
+                                width: double.infinity,
+                                child: snap[i]
+                                        .categoryImage
+                                        .validate()
+                                        .endsWith('svg')
+                                    ? SvgPicture.network(
+                                        snap[i].categoryImage.validate(),
+                                        height: CATEGORY_ICON_SIZE,
+                                        width: CATEGORY_ICON_SIZE,
+                                        color: appStore.isDarkMode
+                                            ? Colors.white
+                                            : data.color
+                                                .validate(value: '000')
+                                                .toColor(),
+                                        placeholderBuilder: (context) =>
+                                            PlaceHolderWidget(
+                                                height: CATEGORY_ICON_SIZE,
+                                                width: CATEGORY_ICON_SIZE,
+                                                color: transparentColor),
+                                      )
+                                    : Center(
+                                        child: CachedImageWidget(
+                                          url: (snap[i].categoryImage)
+                                              .validate(),
+                                          fit: BoxFit.cover,
+                                          width: 90,
+                                          height: 90,
+                                          radius: 8,
+                                          circle: true,
+                                          placeHolderImage: '',
+                                        ),
+                                      ),
+                              ),
+                              10.height,
+                              Text(
+                                snap[i].name ?? '',
+                                style: boldTextStyle(),
+                              )
+                            ],
+                          ),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                  color: Color(0xffEBEBEB), width: 1.5)),
+                        ),
                       );
                     },
-                  ).center(),
+                  ),
                 ],
               );
             },

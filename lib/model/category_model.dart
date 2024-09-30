@@ -8,8 +8,12 @@ class CategoryResponse {
 
   factory CategoryResponse.fromJson(Map<String, dynamic> json) {
     return CategoryResponse(
-      categoryList: json['data'] != null ? (json['data'] as List).map((i) => CategoryData.fromJson(i)).toList() : null,
-      pagination: json['pagination'] != null ? Pagination.fromJson(json['pagination']) : null,
+      categoryList: json['data'] != null
+          ? (json['data'] as List).map((i) => CategoryData.fromJson(i)).toList()
+          : null,
+      pagination: json['pagination'] != null
+          ? Pagination.fromJson(json['pagination'])
+          : null,
     );
   }
 
@@ -35,8 +39,19 @@ class CategoryData {
   int? status;
   bool isSelected;
   int? services;
+  String? extension;
 
-  CategoryData({this.categoryImage, this.color, this.description, this.id, this.isFeatured, this.name, this.status, this.isSelected = false, this.services});
+  CategoryData(
+      {this.categoryImage,
+      this.color,
+      this.description,
+      this.id,
+      this.isFeatured,
+      this.name,
+      this.status,
+      this.isSelected = false,
+      this.services,
+      this.extension});
 
   factory CategoryData.fromJson(Map<String, dynamic> json) {
     return CategoryData(
@@ -48,6 +63,7 @@ class CategoryData {
       name: json['name'],
       status: json['status'],
       services: json['services'],
+      extension: json['category_extension']
     );
   }
 

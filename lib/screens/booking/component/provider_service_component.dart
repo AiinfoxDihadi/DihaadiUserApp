@@ -33,7 +33,8 @@ class ProviderServiceComponent extends StatefulWidget {
   });
 
   @override
-  _ProviderServiceComponentState createState() => _ProviderServiceComponentState();
+  _ProviderServiceComponentState createState() =>
+      _ProviderServiceComponentState();
 }
 
 class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
@@ -57,7 +58,12 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
     return GestureDetector(
       onTap: () {
         hideKeyboard(context);
-        ServiceDetailScreen(serviceId: widget.isFavouriteService ? widget.serviceData!.serviceId.validate().toInt() : widget.serviceData!.id.validate()).launch(context).then((value) {
+        ServiceDetailScreen(
+                serviceId: widget.isFavouriteService
+                    ? widget.serviceData!.serviceId.validate().toInt()
+                    : widget.serviceData!.id.validate())
+            .launch(context)
+            .then((value) {
           setStatusBarColor(context.primaryColor);
         });
       },
@@ -83,11 +89,17 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                   children: [
                     CachedImageWidget(
                       url: widget.isFavouriteService
-                          ? widget.serviceData!.serviceAttachments.validate().isNotEmpty
-                              ? widget.serviceData!.serviceAttachments!.first.validate()
+                          ? widget.serviceData!.serviceAttachments
+                                  .validate()
+                                  .isNotEmpty
+                              ? widget.serviceData!.serviceAttachments!.first
+                                  .validate()
                               : ''
-                          : widget.serviceData!.attachments.validate().isNotEmpty
-                              ? widget.serviceData!.attachments!.first.validate()
+                          : widget.serviceData!.attachments
+                                  .validate()
+                                  .isNotEmpty
+                              ? widget.serviceData!.attachments!.first
+                                  .validate()
                               : '',
                       fit: BoxFit.cover,
                       height: 85,
@@ -99,8 +111,10 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                       right: 4,
                       child: Container(
                         alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-                        constraints: BoxConstraints(maxWidth: context.width() * 0.1),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                        constraints:
+                            BoxConstraints(maxWidth: context.width() * 0.1),
                         decoration: boxDecorationWithShadow(
                           backgroundColor: context.cardColor.withOpacity(0.9),
                           borderRadius: radius(24),
@@ -108,8 +122,16 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ic_star_fill.iconImage(color: getRatingBarColor(widget.serviceData!.totalRating.validate().toInt()), size: 11),
-                            Text(" ${widget.serviceData!.totalRating.validate().toStringAsPrecision(2)}", style: secondaryTextStyle(size: 10, weight: FontWeight.bold)),
+                            ic_star_fill.iconImage(
+                                color: getRatingBarColor(widget
+                                    .serviceData!.totalRating
+                                    .validate()
+                                    .toInt()),
+                                size: 11),
+                            Text(
+                                " ${widget.serviceData!.totalRating.validate().toStringAsPrecision(2)}",
+                                style: secondaryTextStyle(
+                                    size: 10, weight: FontWeight.bold)),
                           ],
                         ),
                       ),
@@ -130,54 +152,76 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                           overflow: TextOverflow.ellipsis,
                         ).expand(),
                         6.width,
-                        if (widget.serviceData!.isOnlineService) Icon(Icons.circle, color: Colors.green, size: 12),
+                        if (widget.serviceData!.isOnlineService)
+                          Icon(Icons.circle, color: Colors.green, size: 12),
                       ],
                     ),
                     6.height,
                     Text(
                       "${widget.serviceData!.subCategoryName.validate().isNotEmpty ? widget.serviceData!.subCategoryName.validate() : widget.serviceData!.categoryName.validate()}",
-                      style: boldTextStyle(color: appStore.isDarkMode ? white : primaryColor, size: 12),
+                      style: boldTextStyle(
+                          color: appStore.isDarkMode ? white : primaryColor,
+                          size: 12),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     8.height,
                     Row(
                       children: [
-                        Container(
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: boxDecorationWithShadow(
-                            backgroundColor: primaryColor,
-                            borderRadius: radius(24),
-                            border: Border.all(color: context.cardColor, width: 2),
-                          ),
-                          child: PriceWidget(
-                            price: widget.serviceData!.price.validate(),
-                            isHourlyService: widget.serviceData!.isHourlyService,
-                            color: Colors.white,
-                            hourlyTextColor: Colors.white,
-                            size: 14,
-                            isFreeService: widget.serviceData!.type.validate() == SERVICE_TYPE_FREE,
-                          ),
-                        ).scale(scale: 0.92),
+                        // Container(
+                        //   alignment: Alignment.center,
+                        //   padding:
+                        //       EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        //   decoration: boxDecorationWithShadow(
+                        //     backgroundColor: primaryColor,
+                        //     borderRadius: radius(24),
+                        //     border:
+                        //         Border.all(color: context.cardColor, width: 2),
+                        //   ),
+                        //   child: PriceWidget(
+                        //     price: widget.serviceData!.price.validate(),
+                        //     isHourlyService:
+                        //         widget.serviceData!.isHourlyService,
+                        //     color: Colors.white,
+                        //     hourlyTextColor: Colors.white,
+                        //     size: 14,
+                        //     isFreeService:
+                        //         widget.serviceData!.type.validate() ==
+                        //             SERVICE_TYPE_FREE,
+                        //   ),
+                        // ).scale(scale: 0.92),
                         8.width,
                         if (!widget.isFromProviderInfo)
                           Row(
                             children: [
-                              ImageBorder(src: widget.serviceData!.providerImage.validate(), height: 20),
+                              ImageBorder(
+                                  src: widget.serviceData!.providerImage
+                                      .validate(),
+                                  height: 20),
                               8.width,
-                              if (widget.serviceData!.providerName.validate().isNotEmpty)
+                              if (widget.serviceData!.providerName
+                                  .validate()
+                                  .isNotEmpty)
                                 Marquee(
                                   child: Text(
                                     widget.serviceData!.providerName.validate(),
-                                    style: secondaryTextStyle(size: 12, color: appStore.isDarkMode ? Colors.white : appTextSecondaryColor),
+                                    style: secondaryTextStyle(
+                                        size: 12,
+                                        color: appStore.isDarkMode
+                                            ? Colors.white
+                                            : appTextSecondaryColor),
                                   ),
                                 ).expand()
                             ],
                           )
                               .onTap(() async {
-                                if (widget.serviceData!.providerId != appStore.userId.validate()) {
-                                  await ProviderInfoScreen(providerId: widget.serviceData!.providerId.validate()).launch(context);
+                                if (widget.serviceData!.providerId !=
+                                    appStore.userId.validate()) {
+                                  await ProviderInfoScreen(
+                                          providerId: widget
+                                              .serviceData!.providerId
+                                              .validate())
+                                      .launch(context);
                                   setStatusBarColor(Colors.transparent);
                                 }
                               })
@@ -191,14 +235,23 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                 if (widget.isFavouriteService)
                   Container(
                     margin: EdgeInsets.only(right: 8),
-                    decoration: boxDecorationWithShadow(boxShape: BoxShape.circle, backgroundColor: context.cardColor),
-                    child: widget.serviceData!.isFavourite == 0 ? ic_fill_heart.iconImage(color: favouriteColor, size: 18) : ic_heart.iconImage(color: unFavouriteColor, size: 18),
+                    decoration: boxDecorationWithShadow(
+                        boxShape: BoxShape.circle,
+                        backgroundColor: context.cardColor),
+                    child: widget.serviceData!.isFavourite == 0
+                        ? ic_fill_heart.iconImage(
+                            color: favouriteColor, size: 18)
+                        : ic_heart.iconImage(color: unFavouriteColor, size: 18),
                   ).onTap(() async {
                     if (widget.serviceData!.isFavourite == 0) {
                       widget.serviceData!.isFavourite = 1;
                       setState(() {});
 
-                      await removeToWishList(serviceId: widget.serviceData!.serviceId.validate().toInt()).then((value) {
+                      await removeToWishList(
+                              serviceId: widget.serviceData!.serviceId
+                                  .validate()
+                                  .toInt())
+                          .then((value) {
                         if (!value) {
                           widget.serviceData!.isFavourite = 0;
                           setState(() {});
@@ -208,7 +261,11 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                       widget.serviceData!.isFavourite = 0;
                       setState(() {});
 
-                      await addToWishList(serviceId: widget.serviceData!.serviceId.validate().toInt()).then((value) {
+                      await addToWishList(
+                              serviceId: widget.serviceData!.serviceId
+                                  .validate()
+                                  .toInt())
+                          .then((value) {
                         if (!value) {
                           widget.serviceData!.isFavourite = 1;
                           setState(() {});

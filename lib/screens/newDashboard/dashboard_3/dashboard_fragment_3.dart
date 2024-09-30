@@ -33,7 +33,7 @@ class _DashboardFragment3State extends State<DashboardFragment3> {
   @override
   void initState() {
     super.initState();
-    // init();
+    init();
 
     afterBuildCreated(() {
       setStatusBarColor(transparentColor, delayInMilliSeconds: 800, statusBarIconBrightness: appStore.isDarkMode ? Brightness.light : Brightness.dark);

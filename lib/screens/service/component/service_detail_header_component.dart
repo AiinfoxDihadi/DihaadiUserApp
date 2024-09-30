@@ -17,19 +17,23 @@ import 'package:nb_utils/nb_utils.dart';
 class ServiceDetailHeaderComponent extends StatefulWidget {
   final ServiceData serviceDetail;
 
-  const ServiceDetailHeaderComponent({required this.serviceDetail, Key? key}) : super(key: key);
+  const ServiceDetailHeaderComponent({required this.serviceDetail, Key? key})
+      : super(key: key);
 
   @override
-  State<ServiceDetailHeaderComponent> createState() => _ServiceDetailHeaderComponentState();
+  State<ServiceDetailHeaderComponent> createState() =>
+      _ServiceDetailHeaderComponentState();
 }
 
-class _ServiceDetailHeaderComponentState extends State<ServiceDetailHeaderComponent> {
+class _ServiceDetailHeaderComponentState
+    extends State<ServiceDetailHeaderComponent> {
   Future<void> onTapFavourite() async {
     if (widget.serviceDetail.isFavourite == 1) {
       widget.serviceDetail.isFavourite = 0;
       setState(() {});
 
-      await removeToWishList(serviceId: widget.serviceDetail.id.validate()).then((value) {
+      await removeToWishList(serviceId: widget.serviceDetail.id.validate())
+          .then((value) {
         if (!value) {
           widget.serviceDetail.isFavourite = 1;
           setState(() {});
@@ -39,7 +43,8 @@ class _ServiceDetailHeaderComponentState extends State<ServiceDetailHeaderCompon
       widget.serviceDetail.isFavourite = 1;
       setState(() {});
 
-      await addToWishList(serviceId: widget.serviceDetail.id.validate()).then((value) {
+      await addToWishList(serviceId: widget.serviceDetail.id.validate())
+          .then((value) {
         if (!value) {
           widget.serviceDetail.isFavourite = 0;
           setState(() {});
@@ -71,7 +76,9 @@ class _ServiceDetailHeaderComponentState extends State<ServiceDetailHeaderCompon
             left: 16,
             child: Container(
               child: BackWidget(iconColor: context.iconColor),
-              decoration: BoxDecoration(shape: BoxShape.circle, color: context.cardColor.withOpacity(0.7)),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: context.cardColor.withOpacity(0.7)),
             ),
           ),
           Positioned(
@@ -79,20 +86,28 @@ class _ServiceDetailHeaderComponentState extends State<ServiceDetailHeaderCompon
             child: Container(
               padding: EdgeInsets.all(10),
               margin: EdgeInsets.only(right: 8),
-              decoration: boxDecorationWithShadow(boxShape: BoxShape.circle, backgroundColor: context.cardColor),
-              child: widget.serviceDetail.isFavourite == 1 ? ic_fill_heart.iconImage(color: favouriteColor, size: 24) : ic_heart.iconImage(color: unFavouriteColor, size: 24),
+              decoration: boxDecorationWithShadow(
+                  boxShape: BoxShape.circle,
+                  backgroundColor: context.cardColor),
+              child: widget.serviceDetail.isFavourite == 1
+                  ? ic_fill_heart.iconImage(color: favouriteColor, size: 24)
+                  : ic_heart.iconImage(color: unFavouriteColor, size: 24),
             ).onTap(() async {
               if (appStore.isLoggedIn) {
                 onTapFavourite();
               } else {
                 push(SignInScreen(returnExpected: true)).then((value) {
-                  setStatusBarColor(transparentColor, delayInMilliSeconds: 1000);
+                  setStatusBarColor(transparentColor,
+                      delayInMilliSeconds: 1000);
                   if (value) {
                     onTapFavourite();
                   }
                 });
               }
-            }, highlightColor: Colors.transparent, splashColor: Colors.transparent, hoverColor: Colors.transparent),
+            },
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                hoverColor: Colors.transparent),
             right: 8,
           ),
           Positioned(
@@ -109,8 +124,15 @@ class _ServiceDetailHeaderComponentState extends State<ServiceDetailHeaderCompon
                       children: List.generate(
                         widget.serviceDetail.attachments!.take(2).length,
                         (i) => Container(
-                          decoration: BoxDecoration(border: Border.all(color: white, width: 2), borderRadius: radius()),
-                          child: GalleryComponent(images: widget.serviceDetail.attachments!, index: i, padding: 32, height: 60, width: 60),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: white, width: 2),
+                              borderRadius: radius()),
+                          child: GalleryComponent(
+                              images: widget.serviceDetail.attachments!,
+                              index: i,
+                              padding: 32,
+                              height: 60,
+                              width: 60),
                         ),
                       ),
                     ),
@@ -127,12 +149,16 @@ class _ServiceDetailHeaderComponentState extends State<ServiceDetailHeaderCompon
                             borderRadius: radius(),
                           ),
                           alignment: Alignment.center,
-                          child: Text('+' '${widget.serviceDetail.attachments!.length - 2}', style: boldTextStyle(color: white)),
+                          child: Text(
+                              '+'
+                              '${widget.serviceDetail.attachments!.length - 2}',
+                              style: boldTextStyle(color: white)),
                         ),
                       ).onTap(() {
                         GalleryScreen(
                           serviceName: widget.serviceDetail.name.validate(),
-                          attachments: widget.serviceDetail.attachments.validate(),
+                          attachments:
+                              widget.serviceDetail.attachments.validate(),
                         ).launch(context);
                       }),
                   ],
@@ -148,43 +174,60 @@ class _ServiceDetailHeaderComponentState extends State<ServiceDetailHeaderCompon
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (widget.serviceDetail.subCategoryName.validate().isNotEmpty)
+                      if (widget.serviceDetail.subCategoryName
+                          .validate()
+                          .isNotEmpty)
                         Marquee(
                           child: Row(
                             children: [
-                              Text('${widget.serviceDetail.categoryName}', style: boldTextStyle(color: textSecondaryColorGlobal, size: 12)),
-                              Text('  >  ', style: boldTextStyle(color: textSecondaryColorGlobal)),
-                              Text('${widget.serviceDetail.subCategoryName}', style: boldTextStyle(color: primaryColor, size: 12)),
+                              Text('${widget.serviceDetail.categoryName}',
+                                  style: boldTextStyle(
+                                      color: textSecondaryColorGlobal,
+                                      size: 12)),
+                              Text('  >  ',
+                                  style: boldTextStyle(
+                                      color: textSecondaryColorGlobal)),
+                              Text('${widget.serviceDetail.subCategoryName}',
+                                  style: boldTextStyle(
+                                      color: primaryColor, size: 12)),
                             ],
                           ),
                         )
                       else
-                        Text('${widget.serviceDetail.categoryName}', style: boldTextStyle(size: 14, color: primaryColor)),
+                        Text('${widget.serviceDetail.categoryName}',
+                            style:
+                                boldTextStyle(size: 14, color: primaryColor)),
                       8.height,
                       Marquee(
-                        child: Text('${widget.serviceDetail.name.validate()}', style: boldTextStyle(size: 18)),
+                        child: Text(
+                            '${(widget.serviceDetail.name?.toUpperCase()).validate()}',
+                            style: boldTextStyle(size: 18)),
                         directionMarguee: DirectionMarguee.oneDirection,
                       ),
                       8.height,
-                      Row(
-                        children: [
-                          PriceWidget(
-                            price: widget.serviceDetail.price.validate(),
-                            isHourlyService: widget.serviceDetail.isHourlyService,
-                            hourlyTextColor: textSecondaryColorGlobal,
-                            isFreeService: widget.serviceDetail.type.validate() == SERVICE_TYPE_FREE,
-                          ),
-                          4.width,
-                          if (widget.serviceDetail.discount.validate() != 0)
-                            Text(
-                              '(${widget.serviceDetail.discount.validate()}% ${language.lblOff})',
-                              style: boldTextStyle(color: Colors.green),
-                            ),
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     PriceWidget(
+                      //       price: widget.serviceDetail.price.validate(),
+                      //       isHourlyService:
+                      //           widget.serviceDetail.isHourlyService,
+                      //       hourlyTextColor: textSecondaryColorGlobal,
+                      //       isFreeService:
+                      //           widget.serviceDetail.type.validate() ==
+                      //               SERVICE_TYPE_FREE,
+                      //     ),
+                      //     4.width,
+                      //     if (widget.serviceDetail.discount.validate() != 0)
+                      //       Text(
+                      //         '(${widget.serviceDetail.discount.validate()}% ${language.lblOff})',
+                      //         style: boldTextStyle(color: Colors.green),
+                      //       ),
+                      //   ],
+                      // ),
                       4.height,
                       TextIcon(
-                        edgeInsets: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                        edgeInsets:
+                            EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                         text: '${language.duration}',
                         textStyle: secondaryTextStyle(size: 14),
                         expandedText: true,
@@ -200,9 +243,16 @@ class _ServiceDetailHeaderComponentState extends State<ServiceDetailHeaderCompon
                         expandedText: true,
                         suffix: Row(
                           children: [
-                            Image.asset(ic_star_fill, height: 18, color: getRatingBarColor(widget.serviceDetail.totalRating.validate().toInt())),
+                            Image.asset(ic_star_fill,
+                                height: 18,
+                                color: getRatingBarColor(widget
+                                    .serviceDetail.totalRating
+                                    .validate()
+                                    .toInt())),
                             4.width,
-                            Text("${widget.serviceDetail.totalRating.validate().toStringAsFixed(1)}", style: boldTextStyle()),
+                            Text(
+                                "${widget.serviceDetail.totalRating.validate().toStringAsFixed(1)}",
+                                style: boldTextStyle()),
                           ],
                         ),
                       ),

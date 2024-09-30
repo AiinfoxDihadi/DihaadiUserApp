@@ -75,9 +75,9 @@ class _SignInScreenState extends State<SignInScreen> {
   void _handleLoginUsers() async {
     hideKeyboard(context);
     Map<String, dynamic> request = {
-      'email': emailCont.text.trim(),
-      'password': passwordCont.text.trim(),
-      'login_type': LOGIN_TYPE_USER,
+      'email': 'demo@user.com',
+      'password': '12345678',
+      'login_type': 'user',
     };
 
     appStore.setLoading(true);
@@ -256,9 +256,11 @@ class _SignInScreenState extends State<SignInScreen> {
               ? () {
                   if ('1234' == passwordCont.text.trim()) {
                     toast('Login succussfully');
-                    DashboardScreen().launch(context,
-                        isNewTask: true,
-                        pageRouteAnimation: PageRouteAnimation.Fade);
+                    appStore.setLoggedIn(true);
+                    _handleLogin();
+                    // DashboardScreen().launch(context,
+                    //     isNewTask: true,
+                    //     pageRouteAnimation: PageRouteAnimation.Fade);
                   } else {
                     toast('enter correct OTP');
                   }

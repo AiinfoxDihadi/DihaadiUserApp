@@ -2,6 +2,7 @@ import 'package:booking_system_flutter/aiinfox/screens/category.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/dashboard_model.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
+import 'package:booking_system_flutter/screens/category/category_screen.dart';
 import 'package:booking_system_flutter/screens/dashboard/component/category_component.dart';
 import 'package:booking_system_flutter/screens/dashboard/component/featured_service_list_component.dart';
 import 'package:booking_system_flutter/screens/dashboard/component/service_list_component.dart';
@@ -34,12 +35,12 @@ class _DashboardFragmentState extends State<DashboardFragment> {
 
     setStatusBarColor(transparentColor, delayInMilliSeconds: 800);
 
-    // LiveStream().on(LIVESTREAM_UPDATE_DASHBOARD, (p0) {
-    //   init();
-    //   appStore.setLoading(true);
+    LiveStream().on(LIVESTREAM_UPDATE_DASHBOARD, (p0) {
+      init();
+      appStore.setLoading(true);
 
-    //   setState(() {});
-    // });
+      setState(() {});
+    });
   }
 
   void init() async {
@@ -68,19 +69,6 @@ class _DashboardFragmentState extends State<DashboardFragment> {
           SnapHelperWidget<DashboardResponse>(
             initialData: cachedDashboardResponse,
             future: future,
-            errorBuilder: (error) {
-              return NoDataWidget(
-                title: error,
-                imageWidget: ErrorStateWidget(),
-                retryText: language.reload,
-                onRetry: () {
-                  appStore.setLoading(true);
-                  init();
-
-                  setState(() {});
-                },
-              );
-            },
             loadingWidget: DashboardShimmer(),
             onSuccess: (snap) {
               return Observer(builder: (context) {
@@ -127,7 +115,7 @@ class _DashboardFragmentState extends State<DashboardFragment> {
                       textColor: Colors.white,
                       width: context.width() - context.navigationBarHeight,
                       onTap: () {
-                        CategoryNewWidget().launch(context);
+                        CategoryScreen().launch(context);
                       },
                     ),
                     // CategoryComponent(categoryList: snap.category.validate()),
@@ -141,6 +129,18 @@ class _DashboardFragmentState extends State<DashboardFragment> {
                   ],
                 );
               });
+            },
+            errorBuilder: (error) {
+              return NoDataWidget(
+                title: error,
+                imageWidget: ErrorStateWidget(),
+                retryText: language.reload,
+                onRetry: () {
+                  appStore.setLoading(true);
+                  init();
+                  setState(() {});
+                },
+              );
             },
           ),
           Observer(

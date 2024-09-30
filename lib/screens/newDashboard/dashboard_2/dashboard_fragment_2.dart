@@ -28,7 +28,7 @@ class _DashboardFragment2State extends State<DashboardFragment2> {
   @override
   void initState() {
     super.initState();
-    // init();
+    init();
 
     afterBuildCreated(() {
       setStatusBarColor(context.primaryColor);

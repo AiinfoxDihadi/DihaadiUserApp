@@ -28,7 +28,7 @@ class _DashboardFragment1State extends State<DashboardFragment1> {
   @override
   void initState() {
     super.initState();
-    // init();
+    init();
 
     setStatusBarColor(transparentColor, delayInMilliSeconds: 800);
 

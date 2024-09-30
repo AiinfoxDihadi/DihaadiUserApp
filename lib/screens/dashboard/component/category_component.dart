@@ -1,9 +1,8 @@
+import 'package:booking_system_flutter/component/cached_image_widget.dart';
 import 'package:booking_system_flutter/component/view_all_label_component.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/category_model.dart';
 import 'package:booking_system_flutter/screens/category/category_screen.dart';
-import 'package:booking_system_flutter/screens/dashboard/component/category_widget.dart';
-import 'package:booking_system_flutter/screens/service/view_all_service_screen.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -49,24 +48,51 @@ class CategoryComponentState extends State<CategoryComponent> {
             });
           },
         ).paddingSymmetric(horizontal: 16),
-        AnimatedWrap(
-          spacing: 16,
-          runSpacing: 16,
-          itemCount: widget.categoryList.validate().length,
-          itemBuilder: (ctx, i) {
-            CategoryData data = widget.categoryList![i];
+        GridView.builder(
+          padding: EdgeInsets.only(left: 20, right: 20, top: 30),
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: widget.categoryList?.length ?? 0,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20),
+          itemBuilder: (BuildContext context, int i) {
             return GestureDetector(
-              onTap: () {
-                ViewAllServiceScreen(
-                        categoryId: data.id.validate(),
-                        categoryName: data.name,
-                        isFromCategory: true)
-                    .launch(context);
-              },
-              child: CategoryWidget(categoryData: data),
+              onTap: () {},
+              child: Container(
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Color(0xffDADAED),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10))),
+                      height: MediaQuery.sizeOf(context).height * 0.15,
+                      width: double.infinity,
+                      child: CachedImageWidget(
+                        url: (widget.categoryList?[i].categoryImage).validate(),
+                        fit: BoxFit.cover,
+                        width: 40,
+                        height: 40,
+                        radius: 8,
+                        circle: true,
+                        placeHolderImage: '',
+                      ),
+                    ),
+                    10.height,
+                    Text(
+                      widget.categoryList?[i].name ?? '',
+                      style: boldTextStyle(),
+                    )
+                  ],
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Color(0xffEBEBEB))),
+              ),
             );
           },
-        ).paddingSymmetric(horizontal: 16),
+        ),
       ],
     );
   }
