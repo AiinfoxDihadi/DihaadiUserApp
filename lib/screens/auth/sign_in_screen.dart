@@ -522,7 +522,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                     ),
                                   )
                                 : ic_phone.iconImage(size: 5).paddingAll(16),
-                            autoFillHints: [AutofillHints.phone],
                           ),
 
                           // AppTextField(

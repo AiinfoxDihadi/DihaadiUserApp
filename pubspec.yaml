@@ -102,7 +102,14 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^2.4.11
   mobx_codegen: ^2.6.1
+  flutter_launcher_icons: ^0.14.1
   #flutter packages pub run build_runner build --delete-conflicting-outputs
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/ic_app_logo.png"
 
 flutter:
   uses-material-design: true

@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package= "com.handyman.app">
+    package= "com.dihaadi.aiinfox">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,7 +15,7 @@
 
     <application
         android:icon="@mipmap/ic_launcher"
-        android:label="Handyman Service User"
+        android:label="Dihaadi"
         android:requestLegacyExternalStorage="true"
         tools:replace="android:label">
         <meta-data

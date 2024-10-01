@@ -181,7 +181,7 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
                                           decoration: BoxDecoration(color: context.cardColor, shape: BoxShape.circle),
                                           child: CachedImageWidget(
                                             url: data.categoryImage.validate(),
-                                            fit: BoxFit.fitWidth,
+                                            fit: BoxFit.fill,
                                             width: SUBCATEGORY_ICON_SIZE,
                                             height: SUBCATEGORY_ICON_SIZE,
                                             circle: true,

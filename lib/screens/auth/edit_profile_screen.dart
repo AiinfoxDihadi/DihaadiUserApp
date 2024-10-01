@@ -450,7 +450,6 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   errorThisFieldRequired: language.requiredText,
                   decoration: inputDecoration(context, labelText: language.hintEmailTxt),
                   suffix: ic_message.iconImage(size: 10).paddingAll(14),
-                  autoFillHints: [AutofillHints.email],
                   onFieldSubmitted: (email) async {
                     if (emailCont.text.isNotEmpty) await verifyEmail();
                   },
@@ -509,6 +508,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     // Country code ...
                     Container(
+                      margin: EdgeInsets.only(bottom: 17),
                       height: 48.0,
                       decoration: BoxDecoration(
                         color: context.cardColor,

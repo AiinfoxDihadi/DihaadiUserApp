@@ -1,4 +1,4 @@
-const appLogo = 'assets/ic_app_logo.jpeg';
+const appLogo = 'assets/ic_app_logo.png';
 
 //region NewDashboard
 const grid = "assets/newDashboard/grid.png";
