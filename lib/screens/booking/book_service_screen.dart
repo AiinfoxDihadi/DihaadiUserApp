@@ -154,6 +154,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
     setState(() {});
   }
 
+
+  List<String> places = ['Home','Office','PG Girls','PG Boys'];
+
   void applyCoupon({bool isApplied = false}) async {
     hideKeyboard(context);
     if (widget.data.serviceDetail != null &&
@@ -272,7 +275,11 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         language.bookTheService,
         textColor: Colors.white,
         color: context.primaryColor,
-        backWidget: BackWidget(),
+        backWidget: BackWidget(onPressed: () {
+          appStore.changeButton(0);
+          appStore.setPlace('');
+          finish(context);
+        },),
       ),
       body: Body(
         showLoader: true,
@@ -286,56 +293,285 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                     style: boldTextStyle(size: LABEL_TEXT_SIZE)),
               if (widget.selectedPackage == null) 8.height,
               if (widget.selectedPackage == null) serviceWidget(context),
-
-              packageWidget(),
-
-              addressAndDescriptionWidget(context),
-
-              Text("${language.hintDescription}",
-                  style: boldTextStyle(size: LABEL_TEXT_SIZE)),
-              8.height,
-              AppTextField(
-                textFieldType: TextFieldType.MULTILINE,
-                controller: descriptionCont,
-                maxLines: 10,
-                minLines: 3,
-                isValidationRequired: false,
-                enableChatGPT: appConfigurationStore.chatGPTStatus,
-                promptFieldInputDecorationChatGPT:
-                    inputDecoration(context).copyWith(
-                  hintText: language.writeHere,
-                  fillColor: context.scaffoldBackgroundColor,
-                  filled: true,
-                  hintStyle: primaryTextStyle(),
+              20.height,
+              Observer(
+                builder: (BuildContext context) {
+                  return Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: AppButton(
+                              height: 40,
+                              width: 80,
+                              onTap: () {
+                                appStore.changeButton(1);
+                              },
+                              color: appStore.buttonValue == 1 ? Color(0xFFFFA27B) : primaryColor,
+                              text: 'Full Time',
+                            ),
+                          ),
+                          30.width,
+                          Expanded(
+                            child: AppButton(
+                              height: 40,
+                              width: 80,
+                              onTap: () {
+                                appStore.changeButton(2);
+                              },
+                              color: appStore.buttonValue == 2 ? Color(0xFFFFA27B) : primaryColor,
+                              text: 'Part Time',
+                            ),
+                          ),
+                        ],
+                      ).paddingOnly(left: 20,right: 20),
+                      25.height,
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: (){
+                          showModalBottomSheet(
+                            backgroundColor: context.scaffoldBackgroundColor,
+                            context: context,
+                            useSafeArea: true,
+                            isScrollControlled: true,
+                            isDismissible: true,
+                            builder: (_) {
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                padding: EdgeInsets.all(16.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      language.selectPalace,
+                                      style: boldTextStyle(size: 18),
+                                    ),
+                                    20.height,
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: places.length,
+                                      itemBuilder: (c, i) {
+                                        return GestureDetector(
+                                          behavior: HitTestBehavior.opaque,
+                                          onTap: () {
+                                            appStore.setPlace(places[i]);
+                                            finish(context);
+                                          },
+                                          child: Text(
+                                            places[i],
+                                            style: boldTextStyle(),
+                                          ).paddingOnly(bottom: 20),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: cardColor
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(appStore.selectPlace.validate().isNotEmpty ? appStore.selectPlace : language.selectPalace,style: secondaryTextStyle()),
+                              RotatedBox(quarterTurns: 3,
+                                  child: Icon(Icons.arrow_back_ios_outlined,color: textSecondaryColorGlobal,size: 14))
+                            ],
+                          ).paddingOnly(left: 20,right: 20),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+              30.height,
+              Text(language.enterDetail, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+              // packageWidget(),
+              15.height,
+              Container(
+                padding: EdgeInsets.only(left: 20,right: 20,top: 20,bottom: 10),
+                decoration: BoxDecoration(
+                  color: cardColor,
+                  borderRadius: BorderRadius.circular(10)
                 ),
-                testWithoutKeyChatGPT: appConfigurationStore.testWithoutKey,
-                loaderWidgetForChatGPT: const ChatGPTLoadingWidget(),
-                onFieldSubmitted: (s) {
-                  widget.data.serviceDetail!.bookingDescription = s;
-                },
-                onChanged: (s) {
-                  widget.data.serviceDetail!.bookingDescription = s;
-                },
-                decoration: inputDecoration(context).copyWith(
-                  fillColor: context.cardColor,
-                  filled: true,
-                  hintText: language.lblEnterDescription,
-                  hintStyle: secondaryTextStyle(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(language.bookingDateAndSlot,
+                        style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                    8.height,
+                    widget.data.serviceDetail!.dateTimeVal == null
+                        ? GestureDetector(
+                      onTap: () async {
+                        handleDateTimePick();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(12),
+                        alignment: Alignment.center,
+                        decoration: boxDecorationWithShadow(
+                            blurRadius: 0,
+                            backgroundColor: context.scaffoldBackgroundColor,
+                            borderRadius: radius(8)),
+                        child: Row(
+                          children: [
+                            ic_calendar.iconImage(size: 20),
+                            8.width,
+                            Text(language.chooseDateTime,
+                                style: secondaryTextStyle()),
+                          ],
+                        ),
+                      ),
+                    )
+                        : Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: boxDecorationDefault(color: context.scaffoldBackgroundColor),
+                      width: context.width(),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text("${language.lblDate}: ",
+                                      style: secondaryTextStyle()),
+                                  buildDateWidget(),
+                                ],
+                              ),
+                              8.height,
+                              Row(
+                                children: [
+                                  Text("${language.lblTime}: ",
+                                      style: secondaryTextStyle()),
+                                  buildTimeWidget(),
+                                ],
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                            icon: ic_edit_square.iconImage(size: 18),
+                            visualDensity: VisualDensity.compact,
+                            onPressed: () async {
+                              handleDateTimePick();
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                    10.height,
+                    if (widget.data.serviceDetail!.isOnSiteService)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          10.height,
+                          Text("${language.lblYourAddress} :",
+                              style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                          8.height,
+                          AppTextField(
+                            textFieldType: TextFieldType.MULTILINE,
+                            controller: addressCont,
+                            maxLines: 3,
+                            minLines: 3,
+                            onFieldSubmitted: (s) {
+                              widget.data.serviceDetail!.address = s;
+                            },
+                            decoration: inputDecoration(
+                              context,
+                              prefixIcon: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ic_location.iconImage(size: 22).paddingOnly(top: 0,bottom: 40),
+                                ],
+                              ),
+                            ).copyWith(
+                              fillColor: context.scaffoldBackgroundColor,
+                              filled: true,
+                              hintText: language.lblEnterYourAddress,
+                              hintStyle: secondaryTextStyle(),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(),
+                              // TextButton(
+                              //   child: Text(language.lblChooseFromMap,
+                              //       style: boldTextStyle(color: primaryColor, size: 13)),
+                              //   onPressed: () {
+                              //     _handleSetLocationClick();
+                              //   },
+                              // ).flexible(),
+                              TextButton(
+                                onPressed: _handleCurrentLocationClick,
+                                child: Text(language.lblUseCurrentLocation,
+                                    style: boldTextStyle(color: primaryColor, size: 13),
+                                    textAlign: TextAlign.right),
+                              ).flexible(),
+                            ],
+                          ),
+                        ],
+                      ),
+                    16.height.visible(!widget.data.serviceDetail!.isOnSiteService),
+                  ],
                 ),
               ),
+              // addressAndDescriptionWidget(context),
 
-              /// Only active status package display
-              if (serviceAddonStore.selectedServiceAddon.validate().isNotEmpty)
-                AddonComponent(
-                  isFromBookingLastStep: true,
-                  serviceAddon: serviceAddonStore.selectedServiceAddon,
-                  onSelectionChange: (v) {
-                    serviceAddonStore.setSelectedServiceAddon(v);
-                    setPrice();
-                  },
-                ),
+              // Text("${language.hintDescription}",
+              //     style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+              // 8.height,
+              // AppTextField(
+              //   textFieldType: TextFieldType.MULTILINE,
+              //   controller: descriptionCont,
+              //   maxLines: 10,
+              //   minLines: 3,
+              //   isValidationRequired: false,
+              //   enableChatGPT: appConfigurationStore.chatGPTStatus,
+              //   promptFieldInputDecorationChatGPT:
+              //       inputDecoration(context).copyWith(
+              //     hintText: language.writeHere,
+              //     fillColor: context.scaffoldBackgroundColor,
+              //     filled: true,
+              //     hintStyle: primaryTextStyle(),
+              //   ),
+              //   testWithoutKeyChatGPT: appConfigurationStore.testWithoutKey,
+              //   loaderWidgetForChatGPT: const ChatGPTLoadingWidget(),
+              //   onFieldSubmitted: (s) {
+              //     widget.data.serviceDetail!.bookingDescription = s;
+              //   },
+              //   onChanged: (s) {
+              //     widget.data.serviceDetail!.bookingDescription = s;
+              //   },
+              //   decoration: inputDecoration(context).copyWith(
+              //     fillColor: context.cardColor,
+              //     filled: true,
+              //     hintText: language.lblEnterDescription,
+              //     hintStyle: secondaryTextStyle(),
+              //   ),
+              // ),
+              // /// Only active status package display
+              // if (serviceAddonStore.selectedServiceAddon.validate().isNotEmpty)
+              //   AddonComponent(
+              //     isFromBookingLastStep: true,
+              //     serviceAddon: serviceAddonStore.selectedServiceAddon,
+              //     onSelectionChange: (v) {
+              //       serviceAddonStore.setSelectedServiceAddon(v);
+              //       setPrice();
+              //     },
+              //   ),
 
-              buildBookingSummaryWidget(),
+              // buildBookingSummaryWidget(),
 
               // 16.height,
 
@@ -490,9 +726,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
               Text((widget.data.serviceDetail!.name?.toUpperCase()).validate(),
                   style: boldTextStyle()),
               4.height,
-              Text(
-                  '${language.duration} (${convertToHourMinute(widget.data.serviceDetail!.duration.validate())})',
-                  style: secondaryTextStyle()),
+              // Text(
+              //     '${language.duration} (${convertToHourMinute(widget.data.serviceDetail!.duration.validate())})',
+              //     style: secondaryTextStyle()),
               16.height,
               if (widget.data.serviceDetail!.isFixedService)
                 Container(

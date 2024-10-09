@@ -357,16 +357,15 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                         bookNow(snap.data!);
                       },
                     ),
-
-                  /// Only active status package display
-                  if (snap.data!.serviceaddon.validate().isNotEmpty)
-                    AddonComponent(
-                      serviceAddon: snap.data!.serviceaddon.validate(),
-                      onSelectionChange: (v) {
-                        serviceAddonStore.setSelectedServiceAddon(v);
-                      },
-                    ),
-
+                  //
+                  // /// Only active status package display
+                  // if (snap.data!.serviceaddon.validate().isNotEmpty)
+                  //   AddonComponent(
+                  //     serviceAddon: snap.data!.serviceaddon.validate(),
+                  //     onSelectionChange: (v) {
+                  //       serviceAddonStore.setSelectedServiceAddon(v);
+                  //     },
+                  //   ),
                   serviceFaqWidget(data: snap.data!.serviceFaq.validate()),
                   reviewWidget(
                       data: snap.data!.ratingData!,

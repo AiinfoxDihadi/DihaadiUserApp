@@ -109,70 +109,57 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 },
                 children: [
                   10.height,
-                  GridView.builder(
-                    padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                  ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: snap.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 15,
-                        crossAxisSpacing: 15),
-                    itemBuilder: (BuildContext context, int i) {
-                      CategoryData data = snap[i];
-                      return GestureDetector(
-                        onTap: () {
-                          ViewAllServiceScreen(
-                                  categoryId: data.id.validate(),
-                                  categoryName: data.name,
-                                  isFromCategory: true)
-                              .launch(context);
-                        },
-                        child: Container(
-                          child: Column(
+                    itemCount: snap.length,itemBuilder: (c,i) {
+                    CategoryData data = snap[i];
+                    return GestureDetector(
+                    onTap: () {
+                      ViewAllServiceScreen(
+                          categoryId: data.id.validate(),
+                          categoryName: data.name,
+                          isFromCategory: true)
+                          .launch(context);
+                    },
+                    child: Stack(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(20),
+                          margin: EdgeInsets.only(bottom: 15,left: 15,right: 15),
+                          child: Row(
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Color(0xffDADAED).withOpacity(0.3),
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        topRight: Radius.circular(10))),
-                                height:
-                                    MediaQuery.sizeOf(context).height * 0.14,
-                                width: double.infinity,
-                                child: snap[i]
-                                        .categoryImage
-                                        .validate()
-                                        .endsWith('svg')
-                                    ? SvgPicture.network(
-                                        snap[i].categoryImage.validate(),
-                                        height: CATEGORY_ICON_SIZE,
-                                        width: CATEGORY_ICON_SIZE,
-                                        color: appStore.isDarkMode
-                                            ? Colors.white
-                                            : data.color
-                                                .validate(value: '000')
-                                                .toColor(),
-                                        placeholderBuilder: (context) =>
-                                            PlaceHolderWidget(
-                                                height: CATEGORY_ICON_SIZE,
-                                                width: CATEGORY_ICON_SIZE,
-                                                color: transparentColor),
-                                      )
-                                    : Center(
-                                        child: CachedImageWidget(
-                                          url: (snap[i].categoryImage)
-                                              .validate(),
-                                          fit: BoxFit.cover,
-                                          width: 90,
-                                          height: 90,
-                                          radius: 8,
-                                          circle: true,
-                                          placeHolderImage: '',
-                                        ),
-                                      ),
+                              snap[i]
+                                  .categoryImage
+                                  .validate()
+                                  .endsWith('svg')
+                                  ? SvgPicture.network(
+                                snap[i].categoryImage.validate(),
+                                height: 40,
+                                width: 40,
+                                color: appStore.isDarkMode
+                                    ? Colors.white
+                                    : data.color
+                                    .validate(value: '000')
+                                    .toColor(),
+                                placeholderBuilder: (context) =>
+                                    PlaceHolderWidget(
+                                        height: 40,
+                                        width: 40,
+                                        color: transparentColor),
+                              )
+                                  : Center(
+                                child: CachedImageWidget(
+                                  url: (snap[i].categoryImage)
+                                      .validate(),
+                                  fit: BoxFit.cover,
+                                  width: 40,
+                                  height: 40,
+                                  radius: 8,
+                                  circle: true,
+                                  placeHolderImage: '',
+                                ),
                               ),
-                              10.height,
+                              20.width,
                               Text(
                                 snap[i].name ?? '',
                                 style: boldTextStyle(),
@@ -184,9 +171,100 @@ class _CategoryScreenState extends State<CategoryScreen> {
                               border: Border.all(
                                   color: Color(0xffEBEBEB), width: 1.5)),
                         ),
-                      );
-                    },
-                  ),
+                        Positioned(
+                          right: 0,
+                          top:25,
+                          child: Container(
+                          height: 30,
+                          width: 30,
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: BorderRadius.circular(50)
+                          ),
+                            child: RotatedBox(quarterTurns: 2,
+                            child: Icon(Icons.arrow_back_ios_new_sharp,size: 15,color: Colors.white,)),
+                        ))
+                      ],
+                    ),
+                  );}),
+                  // GridView.builder(
+                  //   padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                  //   shrinkWrap: true,
+                  //   physics: NeverScrollableScrollPhysics(),
+                  //   itemCount: snap.length,
+                  //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  //       crossAxisCount: 2,
+                  //       mainAxisSpacing: 15,
+                  //       crossAxisSpacing: 15),
+                  //   itemBuilder: (BuildContext context, int i) {
+                  //     CategoryData data = snap[i];
+                  //     return GestureDetector(
+                  //       onTap: () {
+                  //         ViewAllServiceScreen(
+                  //                 categoryId: data.id.validate(),
+                  //                 categoryName: data.name,
+                  //                 isFromCategory: true)
+                  //             .launch(context);
+                  //       },
+                  //       child: Container(
+                  //         child: Column(
+                  //           children: [
+                  //             Container(
+                  //               decoration: BoxDecoration(
+                  //                   color: Color(0xffDADAED).withOpacity(0.3),
+                  //                   borderRadius: BorderRadius.only(
+                  //                       topLeft: Radius.circular(10),
+                  //                       topRight: Radius.circular(10))),
+                  //               height:
+                  //                   MediaQuery.sizeOf(context).height * 0.14,
+                  //               width: double.infinity,
+                  //               child: snap[i]
+                  //                       .categoryImage
+                  //                       .validate()
+                  //                       .endsWith('svg')
+                  //                   ? SvgPicture.network(
+                  //                       snap[i].categoryImage.validate(),
+                  //                       height: CATEGORY_ICON_SIZE,
+                  //                       width: CATEGORY_ICON_SIZE,
+                  //                       color: appStore.isDarkMode
+                  //                           ? Colors.white
+                  //                           : data.color
+                  //                               .validate(value: '000')
+                  //                               .toColor(),
+                  //                       placeholderBuilder: (context) =>
+                  //                           PlaceHolderWidget(
+                  //                               height: CATEGORY_ICON_SIZE,
+                  //                               width: CATEGORY_ICON_SIZE,
+                  //                               color: transparentColor),
+                  //                     )
+                  //                   : Center(
+                  //                       child: CachedImageWidget(
+                  //                         url: (snap[i].categoryImage)
+                  //                             .validate(),
+                  //                         fit: BoxFit.cover,
+                  //                         width: 90,
+                  //                         height: 90,
+                  //                         radius: 8,
+                  //                         circle: true,
+                  //                         placeHolderImage: '',
+                  //                       ),
+                  //                     ),
+                  //             ),
+                  //             10.height,
+                  //             Text(
+                  //               snap[i].name ?? '',
+                  //               style: boldTextStyle(),
+                  //             )
+                  //           ],
+                  //         ),
+                  //         decoration: BoxDecoration(
+                  //             borderRadius: BorderRadius.circular(10),
+                  //             border: Border.all(
+                  //                 color: Color(0xffEBEBEB), width: 1.5)),
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
                 ],
               );
             },

@@ -51,8 +51,8 @@ android {
         applicationId 'com.dihaadi.aiinfox'
         minSdkVersion 25
         targetSdkVersion 34
-        versionCode 89
-        versionName '11.7.2'
+        versionCode 2
+        versionName '1.0.0'
     }
     
     signingConfigs {

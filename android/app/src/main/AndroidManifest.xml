@@ -15,7 +15,7 @@
 
     <application
         android:icon="@mipmap/ic_launcher"
-        android:label="Dihaadi"
+        android:label="Dihaadi User"
         android:requestLegacyExternalStorage="true"
         tools:replace="android:label">
         <meta-data

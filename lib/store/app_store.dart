@@ -22,7 +22,13 @@ abstract class _AppStore with Store {
   bool isDarkMode = false;
 
   @observable
+  int buttonValue = 0;
+
+  @observable
   bool isLoading = false;
+
+  @observable
+  String selectPlace = '';
 
   @observable
   bool isCurrentLocation = getBoolAsync(IS_CURRENT_LOCATION);
@@ -105,6 +111,16 @@ abstract class _AppStore with Store {
   @action
   void setSpeechStatus(bool val) {
     isSpeechActivated = val;
+  }
+
+  @action
+  void setPlace(String val) {
+    selectPlace = val;
+  }
+
+  @action
+   void changeButton(int val) {
+    buttonValue = val;
   }
 
   @action

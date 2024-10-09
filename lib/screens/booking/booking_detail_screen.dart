@@ -1086,8 +1086,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
         textColor: Colors.white,
         color: Colors.green,
         onTap: () {
-          PaymentScreen(bookings: bookingResponse, isForAdvancePayment: true)
-              .launch(context);
+          // PaymentScreen(bookings: bookingResponse, isForAdvancePayment: true)
+          //     .launch(context);
         },
       );
     } else if (bookingResponse.bookingDetail!.status ==
@@ -1182,8 +1182,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
         textColor: Colors.white,
         color: Colors.green,
         onTap: () {
-          PaymentScreen(bookings: bookingResponse, isForAdvancePayment: false)
-              .launch(context);
+          // PaymentScreen(bookings: bookingResponse, isForAdvancePayment: false)
+          //     .launch(context);
         },
       );
     } else if (!bookingResponse.bookingDetail!.isFreeService &&

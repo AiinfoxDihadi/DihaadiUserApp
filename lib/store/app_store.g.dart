@@ -49,6 +49,22 @@ mixin _$AppStore on _AppStore, Store {
     });
   }
 
+  late final _$buttonValueAtom =
+      Atom(name: '_AppStore.buttonValue', context: context);
+
+  @override
+  int get buttonValue {
+    _$buttonValueAtom.reportRead();
+    return super.buttonValue;
+  }
+
+  @override
+  set buttonValue(int value) {
+    _$buttonValueAtom.reportWrite(value, super.buttonValue, () {
+      super.buttonValue = value;
+    });
+  }
+
   late final _$isLoadingAtom =
       Atom(name: '_AppStore.isLoading', context: context);
 
@@ -62,6 +78,22 @@ mixin _$AppStore on _AppStore, Store {
   set isLoading(bool value) {
     _$isLoadingAtom.reportWrite(value, super.isLoading, () {
       super.isLoading = value;
+    });
+  }
+
+  late final _$selectPlaceAtom =
+      Atom(name: '_AppStore.selectPlace', context: context);
+
+  @override
+  String get selectPlace {
+    _$selectPlaceAtom.reportRead();
+    return super.selectPlace;
+  }
+
+  @override
+  set selectPlace(String value) {
+    _$selectPlaceAtom.reportWrite(value, super.selectPlace, () {
+      super.selectPlace = value;
     });
   }
 
@@ -681,6 +713,28 @@ mixin _$AppStore on _AppStore, Store {
   }
 
   @override
+  void setPlace(String val) {
+    final _$actionInfo =
+        _$_AppStoreActionController.startAction(name: '_AppStore.setPlace');
+    try {
+      return super.setPlace(val);
+    } finally {
+      _$_AppStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeButton(int val) {
+    final _$actionInfo =
+        _$_AppStoreActionController.startAction(name: '_AppStore.changeButton');
+    try {
+      return super.changeButton(val);
+    } finally {
+      _$_AppStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setLoading(bool val) {
     final _$actionInfo =
         _$_AppStoreActionController.startAction(name: '_AppStore.setLoading');
@@ -707,7 +761,9 @@ mixin _$AppStore on _AppStore, Store {
     return '''
 isLoggedIn: ${isLoggedIn},
 isDarkMode: ${isDarkMode},
+buttonValue: ${buttonValue},
 isLoading: ${isLoading},
+selectPlace: ${selectPlace},
 isCurrentLocation: ${isCurrentLocation},
 selectedLanguageCode: ${selectedLanguageCode},
 userProfileImage: ${userProfileImage},

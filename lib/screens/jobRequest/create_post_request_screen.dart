@@ -70,7 +70,7 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
       PostJob.postTitle: postTitleCont.text.validate(),
       PostJob.description: descriptionCont.text.validate(),
       PostJob.serviceId: serviceList,
-      PostJob.price: priceCont.text.validate(),
+      PostJob.price: '1',
       PostJob.status: JOB_REQUEST_STATUS_REQUESTED,
       PostJob.latitude: appStore.latitude,
       PostJob.longitude: appStore.longitude,
@@ -152,21 +152,6 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                             loaderWidgetForChatGPT: const ChatGPTLoadingWidget(),
                             decoration: inputDecoration(context, labelText: language.postJobDescription),
                           ),
-                          16.height,
-                          AppTextField(
-                            textFieldType: TextFieldType.PHONE,
-                            controller: priceCont,
-                            focus: priceFocus,
-                            errorThisFieldRequired: language.requiredText,
-                            decoration: inputDecoration(context, labelText: language.price),
-                            keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
-                            validator: (s) {
-                              if (s!.isEmpty) return errorThisFieldRequired;
-
-                              if (s.toDouble() <= 0) return language.priceAmountValidationMessage;
-                              return null;
-                            },
-                          )
                         ],
                       ).paddingAll(16),
                     ),

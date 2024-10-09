@@ -112,10 +112,10 @@ class _ConfirmBookingDialogState extends State<ConfirmBookingDialog> {
     saveBooking(request).then((bookingDetailResponse) async {
       appStore.setLoading(false);
 
-      if (widget.data.serviceDetail != null && widget.data.serviceDetail!.isAdvancePayment) {
-        finish(context);
-        PaymentScreen(bookings: bookingDetailResponse, isForAdvancePayment: true).launch(context);
-      } else {
+      // if (widget.data.serviceDetail != null && widget.data.serviceDetail!.isAdvancePayment) {
+      //   finish(context);
+      //   // PaymentScreen(bookings: bookingDetailResponse, isForAdvancePayment: true).launch(context);
+      // } else {
         finish(context);
         showInDialog(
           context,
@@ -129,7 +129,7 @@ class _ConfirmBookingDialogState extends State<ConfirmBookingDialog> {
           backgroundColor: transparentColor,
           contentPadding: EdgeInsets.zero,
         );
-      }
+      // }
     }).catchError((e) {
       appStore.setLoading(false);
       toast(e.toString(), print: true);
@@ -152,44 +152,44 @@ class _ConfirmBookingDialogState extends State<ConfirmBookingDialog> {
               16.height,
               Text(language.lblConfirmMsg, style: primaryTextStyle(), textAlign: TextAlign.center),
               16.height,
-              ExcludeSemantics(
-                child: CheckboxListTile(
-                  checkboxShape: RoundedRectangleBorder(borderRadius: radius(4)),
-                  autofocus: false,
-                  activeColor: context.primaryColor,
-                  checkColor: appStore.isDarkMode ? context.iconColor : context.cardColor,
-                  value: isSelected,
-                  onChanged: (val) async {
-                    isSelected = !isSelected;
-                    setState(() {});
-                  },
-                  title: RichTextWidget(
-                    list: [
-                      TextSpan(text: '${language.lblAgree} ', style: secondaryTextStyle(size: 14)),
-                      TextSpan(
-                        text: language.lblTermsOfService,
-                        style: boldTextStyle(color: primaryColor, size: 14),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            commonLaunchUrl(appConfigurationStore.termConditions, launchMode: LaunchMode.externalApplication);
-                          },
-                      ),
-                      TextSpan(text: ' & ', style: secondaryTextStyle()),
-                      TextSpan(
-                        text: language.privacyPolicy,
-                        style: boldTextStyle(color: primaryColor, size: 14),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            commonLaunchUrl(appConfigurationStore.privacyPolicy, launchMode: LaunchMode.externalApplication);
-                          },
-                      ),
-                    ],
-                  ),
-                  controlAffinity: ListTileControlAffinity.leading,
-                  contentPadding: EdgeInsets.zero,
-                ),
-              ),
-              32.height,
+              // ExcludeSemantics(
+              //   child: CheckboxListTile(
+              //     checkboxShape: RoundedRectangleBorder(borderRadius: radius(4)),
+              //     autofocus: false,
+              //     activeColor: context.primaryColor,
+              //     checkColor: appStore.isDarkMode ? context.iconColor : context.cardColor,
+              //     value: isSelected,
+              //     onChanged: (val) async {
+              //       isSelected = !isSelected;
+              //       setState(() {});
+              //     },
+              //     title: RichTextWidget(
+              //       list: [
+              //         TextSpan(text: '${language.lblAgree} ', style: secondaryTextStyle(size: 14)),
+              //         TextSpan(
+              //           text: language.lblTermsOfService,
+              //           style: boldTextStyle(color: primaryColor, size: 14),
+              //           recognizer: TapGestureRecognizer()
+              //             ..onTap = () {
+              //               commonLaunchUrl(appConfigurationStore.termConditions, launchMode: LaunchMode.externalApplication);
+              //             },
+              //         ),
+              //         TextSpan(text: ' & ', style: secondaryTextStyle()),
+              //         TextSpan(
+              //           text: language.privacyPolicy,
+              //           style: boldTextStyle(color: primaryColor, size: 14),
+              //           recognizer: TapGestureRecognizer()
+              //             ..onTap = () {
+              //               commonLaunchUrl(appConfigurationStore.privacyPolicy, launchMode: LaunchMode.externalApplication);
+              //             },
+              //         ),
+              //       ],
+              //     ),
+              //     controlAffinity: ListTileControlAffinity.leading,
+              //     contentPadding: EdgeInsets.zero,
+              //   ),
+              // ),
+              // 32.height,
               Row(
                 children: [
                   AppButton(
@@ -205,11 +205,7 @@ class _ConfirmBookingDialogState extends State<ConfirmBookingDialog> {
                     textColor: Colors.white,
                     color: context.primaryColor,
                     onTap: () {
-                      if (isSelected) {
                         bookServices();
-                      } else {
-                        toast(language.termsConditionsAccept);
-                      }
                     },
                   ).expand(),
                 ],

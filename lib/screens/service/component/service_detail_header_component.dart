@@ -174,36 +174,10 @@ class _ServiceDetailHeaderComponentState
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (widget.serviceDetail.subCategoryName
-                          .validate()
-                          .isNotEmpty)
-                        Marquee(
-                          child: Row(
-                            children: [
-                              Text('${widget.serviceDetail.categoryName}',
-                                  style: boldTextStyle(
-                                      color: textSecondaryColorGlobal,
-                                      size: 12)),
-                              Text('  >  ',
-                                  style: boldTextStyle(
-                                      color: textSecondaryColorGlobal)),
-                              Text('${widget.serviceDetail.subCategoryName}',
-                                  style: boldTextStyle(
-                                      color: primaryColor, size: 12)),
-                            ],
-                          ),
-                        )
-                      else
-                        Text('${widget.serviceDetail.categoryName}',
-                            style:
-                                boldTextStyle(size: 14, color: primaryColor)),
-                      8.height,
-                      Marquee(
-                        child: Text(
-                            '${(widget.serviceDetail.name?.toUpperCase()).validate()}',
-                            style: boldTextStyle(size: 18)),
-                        directionMarguee: DirectionMarguee.oneDirection,
-                      ),
+                      Text(
+                        maxLines: 2,
+                          '${(widget.serviceDetail.name?.toUpperCase()).validate()}',
+                          style: boldTextStyle(size: 18)),
                       8.height,
                       // Row(
                       //   children: [
@@ -225,17 +199,17 @@ class _ServiceDetailHeaderComponentState
                       //   ],
                       // ),
                       4.height,
-                      TextIcon(
-                        edgeInsets:
-                            EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                        text: '${language.duration}',
-                        textStyle: secondaryTextStyle(size: 14),
-                        expandedText: true,
-                        suffix: Text(
-                          "${convertToHourMinute(widget.serviceDetail.duration.validate())}",
-                          style: boldTextStyle(color: primaryColor),
-                        ),
-                      ),
+                      // TextIcon(
+                      //   edgeInsets:
+                      //       EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                      //   text: '${language.duration}',
+                      //   textStyle: secondaryTextStyle(size: 14),
+                      //   expandedText: true,
+                      //   suffix: Text(
+                      //     "${convertToHourMinute(widget.serviceDetail.duration.validate())}",
+                      //     style: boldTextStyle(color: primaryColor),
+                      //   ),
+                      // ),
                       TextIcon(
                         text: '${language.lblRating}',
                         textStyle: secondaryTextStyle(size: 14),

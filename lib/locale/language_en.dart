@@ -946,7 +946,7 @@ class LanguageEn extends BaseLanguage {
   String get noTimeSlots => 'No Time Slots';
 
   @override
-  String get bookingDateAndSlot => 'Booking Date & Slot';
+  String get bookingDateAndSlot => 'Date And Time :';
 
   @override
   String get extraCharges => 'Extra Charges';
@@ -1949,6 +1949,14 @@ class LanguageEn extends BaseLanguage {
   String get login => 'Login';
   
   @override
-  // TODO: implement didntReceiveOtp
-  String get didntReceiveOtp => throw UnimplementedError();
+  String get didntReceiveOtp => '';
+
+  @override
+  String get selectPalace => 'Select Place';
+
+  @override
+  String get enterDetail => 'Enter Detail Information';
+
+  @override
+  String get bookingSuccessful => 'Booking Successful';
 }

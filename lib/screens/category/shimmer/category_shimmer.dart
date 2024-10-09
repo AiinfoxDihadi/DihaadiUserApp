@@ -19,25 +19,40 @@ class CategoryShimmer extends StatelessWidget {
         scaleConfiguration: ScaleConfiguration(duration: 300.milliseconds, delay: 50.milliseconds),
         itemBuilder: (_, index) {
           return ShimmerWidget(
-            child: SizedBox(
-              width: context.width() / 4 - 20,
-              child: Column(
-                children: [
-                  Container(
-                    width: CATEGORY_ICON_SIZE,
-                    height: CATEGORY_ICON_SIZE,
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(color: context.cardColor, shape: BoxShape.circle),
+            child: GridView.builder(
+              padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: 4,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 15,
+                  crossAxisSpacing: 15),
+              itemBuilder: (BuildContext context, int i) {
+                return Container(
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Color(0xffDADAED).withOpacity(0.3),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10))),
+                        height:
+                        MediaQuery.sizeOf(context).height * 0.14,
+                        width: double.infinity,
+                        child: SizedBox.shrink()
+                        ),
+                      10.height,
+                    ],
                   ),
-                  4.height,
-                  Container(
-                    width: 60,
-                    height: 10,
-                    decoration: boxDecorationWithRoundedCorners(backgroundColor: context.cardColor),
-                  ),
-                ],
-              ),
-            ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                          color: Color(0xffEBEBEB), width: 1.5)),
+                );
+              },
+            )
           );
         },
       ),

@@ -1868,5 +1868,14 @@ String get yourWithdrawalRequestHasBeenSuccessfullySubmitted => 'Votre demande d
   String get login => 'se connecter';
   
   @override
-  String get didntReceiveOtp => throw UnimplementedError();
+  String get didntReceiveOtp => '';
+
+  @override
+  String get selectPalace => '';
+
+  @override
+  String get enterDetail => '';
+
+  @override
+  String get bookingSuccessful => "";
 }

@@ -9,8 +9,9 @@ class ImageBorder extends StatelessWidget {
   final double? width;
   final Color? borderColor;
   final double borderWidth;
+  final bool? galley;
 
-  ImageBorder({required this.src, required this.height, this.width, this.borderColor, this.borderWidth = 1});
+  ImageBorder({required this.src, required this.height, this.width, this.borderColor, this.borderWidth = 1,  this.galley});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class ImageBorder extends StatelessWidget {
         width: width,
         fit: BoxFit.cover,
       ).onTap(() {
-        if (src.isNotEmpty) ZoomImageScreen(galleryImages: [src], index: 0).launch(context);
+        galley == false ? null : (src.isNotEmpty? ZoomImageScreen(galleryImages: [src], index: 0).launch(context) : null);
       }),
     );
   }

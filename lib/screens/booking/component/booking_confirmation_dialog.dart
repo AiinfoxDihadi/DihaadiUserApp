@@ -1,5 +1,6 @@
 import 'package:booking_system_flutter/model/package_data_model.dart';
 import 'package:booking_system_flutter/screens/booking/booking_detail_screen.dart';
+import 'package:booking_system_flutter/utils/images.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -70,111 +71,142 @@ class _BookingConfirmationDialogState extends State<BookingConfirmationDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return  Container(
+        decoration: BoxDecoration(
+                  color: context.cardColor,
+                  borderRadius: radius(),
+                ),
+                padding: EdgeInsets.all(16),
+                margin: EdgeInsets.only(top: 30),
       width: context.width(),
-      child: Stack(
-        alignment: Alignment.topCenter,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color: context.cardColor,
-              borderRadius: radius(),
-            ),
-            padding: EdgeInsets.all(16),
-            margin: EdgeInsets.only(top: 30),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                30.height,
-                Text(language.thankYou, style: boldTextStyle(size: 20)),
-                8.height,
-                Text(language.bookingConfirmedMsg, style: secondaryTextStyle()),
-                24.height,
-                DottedBorderWidget(
-                  color: primaryColor.withOpacity(0.6),
-                  strokeWidth: 1,
-                  gap: 6,
-                  padding: EdgeInsets.all(16),
-                  radius: 12,
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(language.lblDate, style: secondaryTextStyle()),
-                          Text(language.lblTime, style: secondaryTextStyle()),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          buildDateWidget().expand(flex: 2),
-                          buildTimeWidget().expand(flex: 1),
-                        ],
-                      ),
-                    ],
-                  ).center(),
-                ),
-                16.height,
-                if (!widget.data.serviceDetail!.isFreeService)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(language.totalAmount, style: secondaryTextStyle(size: 14)),
-                          8.height,
-                          PriceWidget(
-                            price: widget.bookingPrice.validate(),
-                            color: textPrimaryColorGlobal,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                16.height,
-                Row(
-                  children: [
-                    AppButton(
-                      padding: EdgeInsets.zero,
-                      text: language.goToHome,
-                      textStyle: boldTextStyle(size: 14, color: Colors.white),
-                      color: context.primaryColor,
-                      onTap: () {
-                        DashboardScreen().launch(context, isNewTask: true);
-                      },
-                    ).expand(),
-                    16.width,
-                    AppButton(
-                      padding: EdgeInsets.zero,
-                      text: language.goToReview,
-                      textStyle: boldTextStyle(size: 12),
-                      shapeBorder: RoundedRectangleBorder(borderRadius: radius(), side: BorderSide(color: primaryColor)),
-                      color: context.scaffoldBackgroundColor,
-                      onTap: () {
-                        DashboardScreen(redirectToBooking: true).launch(context, isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
-                        BookingDetailScreen(bookingId: widget.bookingId.validate()).launch(context);
-                      },
-                    ).expand(),
-                  ],
-                ),
-                16.height,
-              ],
-            ),
-          ),
-          Container(
-            height: 60,
-            width: 60,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: context.primaryColor,
-              border: Border.all(width: 5, color: context.cardColor, style: BorderStyle.solid, strokeAlign: BorderSide.strokeAlignOutside),
-            ),
-            child: Icon(Icons.check, color: context.cardColor, size: 40),
+          Image.asset(ic_confirm_check, height: 100, width: 100, color: primaryColor),
+          24.height,
+          Text(language.bookingSuccessful, style: boldTextStyle(size: 24)),
+          16.height,
+          Text('It is a long established fact that a reader will be distracted by the readable ', style: primaryTextStyle(), textAlign: TextAlign.center,maxLines: 2,).flexible(),
+          16.height,
+          AppButton(
+            text: language.goToHome,
+            height: 40,
+            width: double.infinity,
+            textColor: Colors.white,
+            color: context.primaryColor,
+            onTap: () {
+              DashboardScreen().launch(context, isNewTask: true);
+            },
           ),
         ],
       ),
     );
+    //   SizedBox(
+    //   width: context.width(),
+    //   child: Stack(
+    //     alignment: Alignment.topCenter,
+    //     children: [
+    //       Container(
+    //         decoration: BoxDecoration(
+    //           color: context.cardColor,
+    //           borderRadius: radius(),
+    //         ),
+    //         padding: EdgeInsets.all(16),
+    //         margin: EdgeInsets.only(top: 30),
+    //         child: Column(
+    //           mainAxisSize: MainAxisSize.min,
+    //           children: [
+    //             30.height,
+    //             Text(language.thankYou, style: boldTextStyle(size: 20)),
+    //             8.height,
+    //             Text(language.bookingConfirmedMsg, style: secondaryTextStyle()),
+    //             24.height,
+    //             DottedBorderWidget(
+    //               color: primaryColor.withOpacity(0.6),
+    //               strokeWidth: 1,
+    //               gap: 6,
+    //               padding: EdgeInsets.all(16),
+    //               radius: 12,
+    //               child: Column(
+    //                 children: [
+    //                   Row(
+    //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                     children: [
+    //                       Text(language.lblDate, style: secondaryTextStyle()),
+    //                       Text(language.lblTime, style: secondaryTextStyle()),
+    //                     ],
+    //                   ),
+    //                   Row(
+    //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                     children: [
+    //                       buildDateWidget().expand(flex: 2),
+    //                       buildTimeWidget().expand(flex: 1),
+    //                     ],
+    //                   ),
+    //                 ],
+    //               ).center(),
+    //             ),
+    //             16.height,
+    //             // if (!widget.data.serviceDetail!.isFreeService)
+    //             //   Row(
+    //             //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //             //     children: [
+    //             //       Column(
+    //             //         crossAxisAlignment: CrossAxisAlignment.start,
+    //             //         children: [
+    //             //           Text(language.totalAmount, style: secondaryTextStyle(size: 14)),
+    //             //           8.height,
+    //             //           PriceWidget(
+    //             //             price: widget.bookingPrice.validate(),
+    //             //             color: textPrimaryColorGlobal,
+    //             //           ),
+    //             //         ],
+    //             //       ),
+    //             //     ],
+    //             //   ),
+    //             // 16.height,
+    //             Row(
+    //               children: [
+    //                 AppButton(
+    //                   padding: EdgeInsets.zero,
+    //                   text: language.goToHome,
+    //                   textStyle: boldTextStyle(size: 14, color: Colors.white),
+    //                   color: context.primaryColor,
+    //                   onTap: () {
+    //                     DashboardScreen().launch(context, isNewTask: true);
+    //                   },
+    //                 ).expand(),
+    //                 16.width,
+    //                 AppButton(
+    //                   padding: EdgeInsets.zero,
+    //                   text: language.goToReview,
+    //                   textStyle: boldTextStyle(size: 12),
+    //                   shapeBorder: RoundedRectangleBorder(borderRadius: radius(), side: BorderSide(color: primaryColor)),
+    //                   color: context.scaffoldBackgroundColor,
+    //                   onTap: () {
+    //                     DashboardScreen(redirectToBooking: true).launch(context, isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
+    //                     BookingDetailScreen(bookingId: widget.bookingId.validate()).launch(context);
+    //                   },
+    //                 ).expand(),
+    //               ],
+    //             ),
+    //             16.height,
+    //           ],
+    //         ),
+    //       ),
+    //       Container(
+    //         height: 60,
+    //         width: 60,
+    //         decoration: BoxDecoration(
+    //           shape: BoxShape.circle,
+    //           color: context.primaryColor,
+    //           border: Border.all(width: 5, color: context.cardColor, style: BorderStyle.solid, strokeAlign: BorderSide.strokeAlignOutside),
+    //         ),
+    //         child: Icon(Icons.check, color: context.cardColor, size: 40),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }

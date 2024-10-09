@@ -1245,4 +1245,10 @@ abstract class BaseLanguage {
   String get login;
 
   String get didntReceiveOtp;
+
+  String get selectPalace;
+
+  String get enterDetail;
+
+  String get bookingSuccessful;
 }

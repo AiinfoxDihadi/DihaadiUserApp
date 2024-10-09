@@ -1868,6 +1868,14 @@ String get yourWithdrawalRequestHasBeenSuccessfullySubmitted => 'Ihr Auszahlungs
   String get login => 'Login';
   
   @override
-  // TODO: implement didntReceiveOtp
-  String get didntReceiveOtp => throw UnimplementedError();
+  String get didntReceiveOtp => '';
+
+  @override
+  String get selectPalace => '';
+
+  @override
+  String get enterDetail => '';
+
+  @override
+  String get bookingSuccessful => "";
 }

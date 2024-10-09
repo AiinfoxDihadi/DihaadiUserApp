@@ -100,13 +100,13 @@ class _MyPostRequestItemComponentState extends State<MyPostRequestItemComponent>
                   ],
                 ),
                 4.height,
-                PriceWidget(
-                  price: widget.data.status.validate() == JOB_REQUEST_STATUS_ASSIGNED ? widget.data.jobPrice.validate() : widget.data.price.validate(),
-                  isHourlyService: false,
-                  color: textPrimaryColorGlobal,
-                  isFreeService: false,
-                  size: 14,
-                ),
+                // PriceWidget(
+                //   price: widget.data.status.validate() == JOB_REQUEST_STATUS_ASSIGNED ? widget.data.jobPrice.validate() : widget.data.price.validate(),
+                //   isHourlyService: false,
+                //   color: textPrimaryColorGlobal,
+                //   isFreeService: false,
+                //   size: 14,
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

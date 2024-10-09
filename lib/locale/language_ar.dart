@@ -1866,8 +1866,17 @@ String get yourWithdrawalRequestHasBeenSuccessfullySubmitted => 'لقد تم إ�
   String get otp => 'مكتب المدعي العام';
   
   @override
-  String get login => throw UnimplementedError();
+  String get login => '';
   
   @override
   String get didntReceiveOtp => '';
+
+  @override
+  String get selectPalace => '';
+
+  @override
+  String get enterDetail => '';
+
+  @override
+  String get bookingSuccessful => '';
 }
