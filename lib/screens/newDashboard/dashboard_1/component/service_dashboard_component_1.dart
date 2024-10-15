@@ -79,7 +79,7 @@ class _ServiceDashboardComponent1State extends State<ServiceDashboardComponent1>
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              height: 180,
+              height: 80,
               width: context.width(),
               child: Stack(
                 children: [
@@ -92,7 +92,7 @@ class _ServiceDashboardComponent1State extends State<ServiceDashboardComponent1>
                             ? widget.serviceData.attachments!.first.validate()
                             : '',
                     fit: BoxFit.cover,
-                    height: 180,
+                    height: 80,
                     width: context.width(),
                     circle: false,
                   ).cornerRadiusWithClipRRectOnly(topRight: defaultRadius.toInt(), topLeft: defaultRadius.toInt()),

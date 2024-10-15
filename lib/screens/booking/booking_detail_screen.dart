@@ -220,14 +220,6 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (snap.bookingDetail!.status ==
-                    BookingStatusKeys.waitingAdvancedPayment &&
-                (snap.service != null && snap.service!.isAdvancePayment) &&
-                (snap.bookingDetail!.paymentStatus == null ||
-                    snap.bookingDetail!.paymentStatus != PAYMENT_STATUS_PAID))
-              Text(language.advancePaymentMessage,
-                  style: primaryTextStyle(color: redColor))
-            else
               Text(language.lblWaitingForProviderApproval,
                   style: primaryTextStyle(color: redColor)),
           ],
@@ -1076,20 +1068,21 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                     SERVICE_PAYMENT_STATUS_ADVANCE_PAID &&
                 bookingResponse.bookingDetail!.status ==
                     BookingStatusKeys.complete))) {
-      return AppButton(
-        text: bookingResponse.bookingDetail!.paymentStatus ==
-                    SERVICE_PAYMENT_STATUS_ADVANCE_PAID &&
-                bookingResponse.bookingDetail!.status ==
-                    BookingStatusKeys.complete
-            ? language.lblPayNow
-            : language.payAdvance,
-        textColor: Colors.white,
-        color: Colors.green,
-        onTap: () {
-          // PaymentScreen(bookings: bookingResponse, isForAdvancePayment: true)
-          //     .launch(context);
-        },
-      );
+      return SizedBox.shrink();
+      //   AppButton(
+      //   text: bookingResponse.bookingDetail!.paymentStatus ==
+      //               SERVICE_PAYMENT_STATUS_ADVANCE_PAID &&
+      //           bookingResponse.bookingDetail!.status ==
+      //               BookingStatusKeys.complete
+      //       ? language.lblPayNow
+      //       : language.payAdvance,
+      //   textColor: Colors.white,
+      //   color: Colors.green,
+      //   onTap: () {
+      //     // PaymentScreen(bookings: bookingResponse, isForAdvancePayment: true)
+      //     //     .launch(context);
+      //   },
+      // );
     } else if (bookingResponse.bookingDetail!.status ==
             BookingStatusKeys.pending ||
         bookingResponse.bookingDetail!.status == BookingStatusKeys.accept) {
@@ -1177,40 +1170,42 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
             bookingResponse.bookingDetail!.paymentMethod ==
                 PAYMENT_METHOD_COD) &&
         bookingResponse.bookingDetail!.paymentId == null) {
-      return AppButton(
-        text: language.lblPayNow,
-        textColor: Colors.white,
-        color: Colors.green,
-        onTap: () {
-          // PaymentScreen(bookings: bookingResponse, isForAdvancePayment: false)
-          //     .launch(context);
-        },
-      );
+      return SizedBox.shrink();
+      // AppButton(
+      //   text: language.lblPayNow,
+      //   textColor: Colors.white,
+      //   color: Colors.green,
+      //   onTap: () {
+      //     // PaymentScreen(bookings: bookingResponse, isForAdvancePayment: false)
+      //     //     .launch(context);
+      //   },
+      // );
     } else if (!bookingResponse.bookingDetail!.isFreeService &&
         bookingResponse.bookingDetail!.status == BookingStatusKeys.complete &&
         !isSentInvoiceOnEmail) {
-      return AppButton(
-        text: language.requestInvoice,
-        textColor: Colors.white,
-        color: context.primaryColor,
-        onTap: () async {
-          bool? res = await showInDialog(
-            context,
-            contentPadding: EdgeInsets.zero,
-            dialogAnimation: DialogAnimation.SLIDE_TOP_BOTTOM,
-            barrierDismissible: false,
-            builder: (_) => InvoiceRequestDialogComponent(
-                bookingId: bookingResponse.bookingDetail!.id.validate()),
-          );
-
-          if (res ?? false) {
-            isSentInvoiceOnEmail = res.validate();
-
-            init();
-            setState(() {});
-          }
-        },
-      );
+      return SizedBox.shrink();
+      //   AppButton(
+      //   text: language.requestInvoice,
+      //   textColor: Colors.white,
+      //   color: context.primaryColor,
+      //   onTap: () async {
+      //     bool? res = await showInDialog(
+      //       context,
+      //       contentPadding: EdgeInsets.zero,
+      //       dialogAnimation: DialogAnimation.SLIDE_TOP_BOTTOM,
+      //       barrierDismissible: false,
+      //       builder: (_) => InvoiceRequestDialogComponent(
+      //           bookingId: bookingResponse.bookingDetail!.id.validate()),
+      //     );
+      //
+      //     if (res ?? false) {
+      //       isSentInvoiceOnEmail = res.validate();
+      //
+      //       init();
+      //       setState(() {});
+      //     }
+      //   },
+      // );
     } else if (bookingResponse.bookingDetail!.status ==
             BookingStatusKeys.complete &&
         isSentInvoiceOnEmail) {

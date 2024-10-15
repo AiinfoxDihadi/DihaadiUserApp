@@ -59,7 +59,7 @@ class _ServiceDashboardComponent4State extends State<ServiceDashboardComponent4>
       },
       child: SizedBox(
         width: widget.width,
-        height: 280,
+        height: 80,
         child: Stack(
           children: [
             CachedImageWidget(
@@ -71,11 +71,11 @@ class _ServiceDashboardComponent4State extends State<ServiceDashboardComponent4>
                       ? widget.serviceData.attachments!.first.validate()
                       : '',
               fit: BoxFit.cover,
-              height: 280,
+              height: 80,
               width: widget.width ?? context.width(),
             ).cornerRadiusWithClipRRect(defaultRadius),
             Container(
-              height: 280,
+              height: 80,
               width: widget.width ?? context.width(),
               decoration: boxDecorationDefault(
                 boxShadow: [],

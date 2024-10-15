@@ -130,7 +130,7 @@ class ServiceComponentState extends State<ServiceComponent> {
             children: [
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 12),
-                height: 100,
+                height: 80,
                 decoration: boxDecorationWithRoundedCorners(
                   borderRadius: radius(),
                   backgroundColor: context.cardColor,
@@ -143,11 +143,11 @@ class ServiceComponentState extends State<ServiceComponent> {
                 width: widget.width,
                 child: Row(
                   children: [
-                    15.width,
+                    widget.isFromViewAllService? 20.width : 5.width,
                     ImageBorder(
                       galley: false,
                         src: widget.serviceData.providerImage.validate(),
-                        height: 60),
+                        height: 50),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -162,8 +162,11 @@ class ServiceComponentState extends State<ServiceComponent> {
                             overflow: TextOverflow.ellipsis,
                           ),
                         Text((widget.serviceData.name).validate(),
+                            maxLines: 2,
+                            softWrap: true,
+                            overflow: TextOverflow.clip,
                             style: secondaryTextStyle(
-                                size: 12,
+                                size: widget.isFromViewAllService ? 12 : 10,
                                 color: appStore.isDarkMode
                                     ? Colors.white
                                     : appTextSecondaryColor)),
@@ -177,9 +180,9 @@ class ServiceComponentState extends State<ServiceComponent> {
                   ],
                 ),
               ),
-              Positioned(
+              widget.isFromViewAllService ?  Positioned(
                   right: 0,
-                  top:35,
+                  top:25,
                   child: Container(
                     height: 30,
                     width: 30,
@@ -189,7 +192,7 @@ class ServiceComponentState extends State<ServiceComponent> {
                     ),
                     child: RotatedBox(quarterTurns: 2,
                         child: Icon(Icons.arrow_back_ios_new_sharp,size: 15,color: Colors.white,)),
-                  ))
+                  )) : SizedBox.shrink()
             ],
           );
         }

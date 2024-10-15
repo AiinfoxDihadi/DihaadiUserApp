@@ -56,19 +56,19 @@ class _ServiceDetailHeaderComponentState
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 475,
+      height: 250,
       width: context.width(),
       child: Stack(
         clipBehavior: Clip.none,
         children: [
           if (widget.serviceDetail.attachments.validate().isNotEmpty)
             SizedBox(
-              height: 400,
+              height: 200,
               width: context.width(),
               child: CachedImageWidget(
                 url: widget.serviceDetail.attachments!.first,
                 fit: BoxFit.cover,
-                height: 400,
+                height: 200,
               ),
             ),
           Positioned(
@@ -118,49 +118,49 @@ class _ServiceDetailHeaderComponentState
               children: [
                 Row(
                   children: [
-                    Wrap(
-                      spacing: 16,
-                      runSpacing: 16,
-                      children: List.generate(
-                        widget.serviceDetail.attachments!.take(2).length,
-                        (i) => Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(color: white, width: 2),
-                              borderRadius: radius()),
-                          child: GalleryComponent(
-                              images: widget.serviceDetail.attachments!,
-                              index: i,
-                              padding: 32,
-                              height: 60,
-                              width: 60),
-                        ),
-                      ),
-                    ),
-                    16.width,
-                    if (widget.serviceDetail.attachments!.length > 2)
-                      Blur(
-                        borderRadius: radius(),
-                        padding: EdgeInsets.zero,
-                        child: Container(
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: white, width: 2),
-                            borderRadius: radius(),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                              '+'
-                              '${widget.serviceDetail.attachments!.length - 2}',
-                              style: boldTextStyle(color: white)),
-                        ),
-                      ).onTap(() {
-                        GalleryScreen(
-                          serviceName: widget.serviceDetail.name.validate(),
-                          attachments:
-                              widget.serviceDetail.attachments.validate(),
-                        ).launch(context);
-                      }),
+                    // Wrap(
+                    //   spacing: 16,
+                    //   runSpacing: 16,
+                    //   children: List.generate(
+                    //     widget.serviceDetail.attachments!.take(2).length,
+                    //     (i) => Container(
+                    //       decoration: BoxDecoration(
+                    //           border: Border.all(color: white, width: 2),
+                    //           borderRadius: radius()),
+                    //       child: GalleryComponent(
+                    //           images: widget.serviceDetail.attachments!,
+                    //           index: i,
+                    //           padding: 32,
+                    //           height: 60,
+                    //           width: 60),
+                    //     ),
+                    //   ),
+                    // ),
+                    // 16.width,
+                    // if (widget.serviceDetail.attachments!.length > 2)
+                    //   Blur(
+                    //     borderRadius: radius(),
+                    //     padding: EdgeInsets.zero,
+                    //     child: Container(
+                    //       height: 60,
+                    //       width: 60,
+                    //       decoration: BoxDecoration(
+                    //         border: Border.all(color: white, width: 2),
+                    //         borderRadius: radius(),
+                    //       ),
+                    //       alignment: Alignment.center,
+                    //       child: Text(
+                    //           '+'
+                    //           '${widget.serviceDetail.attachments!.length - 2}',
+                    //           style: boldTextStyle(color: white)),
+                    //     ),
+                    //   ).onTap(() {
+                    //     GalleryScreen(
+                    //       serviceName: widget.serviceDetail.name.validate(),
+                    //       attachments:
+                    //           widget.serviceDetail.attachments.validate(),
+                    //     ).launch(context);
+                    //   }),
                   ],
                 ),
                 16.height,

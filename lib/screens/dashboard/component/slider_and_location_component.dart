@@ -67,7 +67,7 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
 
   Widget getSliderWidget() {
     return SizedBox(
-      height: 325,
+      height: 180,
       width: context.width(),
       child: Stack(
         children: [
@@ -80,7 +80,7 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
                       SliderModel data = widget.sliderList[index];
                       return CachedImageWidget(
                               url: data.sliderImage.validate(),
-                              height: 250,
+                              height: 180,
                               width: context.width(),
                               fit: BoxFit.cover)
                           .onTap(() {
@@ -96,11 +96,11 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
                 )
               : CachedImageWidget(
                   url: 'https://kaamwalibais.com/img/maid.png',
-                  height: 250,
+                  height: 180,
                   width: context.width()),
           if (widget.sliderList.length.validate() > 1)
             Positioned(
-              bottom: 34,
+              bottom: 4,
               left: 0,
               right: 0,
               child: DotIndicator(
@@ -119,7 +119,7 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
             ),
           if (appStore.isLoggedIn)
             Positioned(
-              top: context.statusBarHeight + 16,
+              top: context.statusBarHeight,
               right: 16,
               child: Container(
                 decoration: boxDecorationDefault(

@@ -26,5 +26,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:931270087231:ios:02833ba194ff34d60b9e8a</string>
+	<key>DATABASE_URL</key>
+	<string>https://dihaadiainfoxx-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

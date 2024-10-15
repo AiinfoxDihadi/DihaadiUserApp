@@ -87,7 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (appStore.isLoading) return;
 
     if (formKey.currentState!.validate()) {
-      if (isAcceptedTc) {
+      // if (isAcceptedTc == false) {
         formKey.currentState!.save();
         appStore.setLoading(true);
 
@@ -118,7 +118,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         await createUsers(tempRegisterData: userResponse);
       }
     }
-  }
+  // }
 
   Future<void> changeCountry() async {
     showCountryPicker(
@@ -154,7 +154,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       formKey.currentState!.save();
 
       /// If Terms and condition is Accepted then only the user will be registered
-      if (isAcceptedTc) {
+      // if (isAcceptedTc) {
         appStore.setLoading(true);
 
         /// Create a temporary request to send
@@ -169,9 +169,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ..password = passwordCont.text.trim();
 
         createUsers(tempRegisterData: tempRegisterData);
-      } else {
-        toast(language.termsConditionsAccept);
-      }
+      // } else {
+      //   toast(language.termsConditionsAccept);
+      // }
     } else {
       isFirstTimeValidation = false;
       setState(() {});
@@ -230,16 +230,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           suffix: ic_profile2.iconImage(size: 10).paddingAll(14),
         ),
         16.height,
-        AppTextField(
-          textFieldType: TextFieldType.NAME,
-          controller: lNameCont,
-          focus: lNameFocus,
-          nextFocus: userNameFocus,
-          errorThisFieldRequired: language.requiredText,
-          decoration: inputDecoration(context, labelText: language.hintLastNameTxt),
-          suffix: ic_profile2.iconImage(size: 10).paddingAll(14),
-        ),
-        16.height,
+        // AppTextField(
+        //   textFieldType: TextFieldType.NAME,
+        //   controller: lNameCont,
+        //   focus: lNameFocus,
+        //   nextFocus: userNameFocus,
+        //   errorThisFieldRequired: language.requiredText,
+        //   decoration: inputDecoration(context, labelText: language.hintLastNameTxt),
+        //   suffix: ic_profile2.iconImage(size: 10).paddingAll(14),
+        // ),
+        // 16.height,
         AppTextField(
           textFieldType: TextFieldType.USERNAME,
           controller: userNameCont,
@@ -252,91 +252,90 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
         16.height,
         AppTextField(
-          textFieldType: TextFieldType.EMAIL_ENHANCED,
+          textFieldType: TextFieldType.PHONE,
           controller: emailCont,
           focus: emailFocus,
           errorThisFieldRequired: language.requiredText,
-          nextFocus: mobileFocus,
           decoration: inputDecoration(context, labelText: language.hintEmailTxt),
-          suffix: ic_message.iconImage(size: 10).paddingAll(14),
+          suffix: ic_calling.iconImage(size: 10).paddingAll(14),
         ),
         16.height,
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Country code ...
-            Container(
-              height: 48.0,
-              decoration: BoxDecoration(
-                color: context.cardColor,
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: Center(
-                child: ValueListenableBuilder(
-                  valueListenable: _valueNotifier,
-                  builder: (context, value, child) => Row(
-                    children: [
-                      Text(
-                        "+${selectedCountry.phoneCode}",
-                        style: primaryTextStyle(size: 12),
-                      ),
-                      Icon(
-                        Icons.arrow_drop_down,
-                        color: textSecondaryColorGlobal,
-                      )
-                    ],
-                  ).paddingOnly(left: 8),
-                ),
-              ),
-            ).onTap(() => changeCountry()),
-            10.width,
-            // Mobile number text field...
-            AppTextField(
-              textFieldType: isAndroid ? TextFieldType.PHONE : TextFieldType.NAME,
-              controller: mobileCont,
-              focus: mobileFocus,
-              errorThisFieldRequired: language.requiredText,
-              nextFocus: passwordFocus,
-              isValidationRequired: false,
-              decoration: inputDecoration(context, labelText: "${language.hintContactNumberTxt}").copyWith(
-                hintText: '${language.lblExample}: ${selectedCountry.example}',
-                hintStyle: secondaryTextStyle(),
-              ),
-              maxLength: 15,
-              suffix: ic_calling.iconImage(size: 10).paddingAll(14),
-            ).expand(),
-          ],
-        ),
-        8.height,
-        if (!widget.isOTPLogin)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              4.height,
-              AppTextField(
-                textFieldType: TextFieldType.PASSWORD,
-                controller: passwordCont,
-                focus: passwordFocus,
-                readOnly: widget.isOTPLogin.validate() ? widget.isOTPLogin : false,
-                suffixPasswordVisibleWidget: ic_show.iconImage(size: 10).paddingAll(14),
-                suffixPasswordInvisibleWidget: ic_hide.iconImage(size: 10).paddingAll(14),
-                errorThisFieldRequired: language.requiredText,
-                decoration: inputDecoration(context, labelText: language.hintPasswordTxt),
-                onFieldSubmitted: (s) {
-                  // if (widget.isOTPLogin) {
-                  //   registerWithOTP();
-                  // } else {
-                  //   registerUser();
-                  // }
-                },
-              ),
-              20.height,
-            ],
-          ),
-        _buildTcAcceptWidget(),
+        // Row(
+        //   crossAxisAlignment: CrossAxisAlignment.center,
+        //   children: [
+        //     // Country code ...
+        //     Container(
+        //       height: 48.0,
+        //       decoration: BoxDecoration(
+        //         color: context.cardColor,
+        //         borderRadius: BorderRadius.circular(12.0),
+        //       ),
+        //       child: Center(
+        //         child: ValueListenableBuilder(
+        //           valueListenable: _valueNotifier,
+        //           builder: (context, value, child) => Row(
+        //             children: [
+        //               Text(
+        //                 "+${selectedCountry.phoneCode}",
+        //                 style: primaryTextStyle(size: 12),
+        //               ),
+        //               Icon(
+        //                 Icons.arrow_drop_down,
+        //                 color: textSecondaryColorGlobal,
+        //               )
+        //             ],
+        //           ).paddingOnly(left: 8),
+        //         ),
+        //       ),
+        //     ).onTap(() => changeCountry()),
+        //     10.width,
+        //     // Mobile number text field...
+        //     AppTextField(
+        //       textFieldType: isAndroid ? TextFieldType.PHONE : TextFieldType.NAME,
+        //       controller: mobileCont,
+        //       focus: mobileFocus,
+        //       errorThisFieldRequired: language.requiredText,
+        //       nextFocus: passwordFocus,
+        //       isValidationRequired: false,
+        //       decoration: inputDecoration(context, labelText: "${language.hintContactNumberTxt}").copyWith(
+        //         hintText: '${language.lblExample}: ${selectedCountry.example}',
+        //         hintStyle: secondaryTextStyle(),
+        //       ),
+        //       maxLength: 15,
+        //       suffix: ic_calling.iconImage(size: 10).paddingAll(14),
+        //     ).expand(),
+        //   ],
+        // ),
+        // 8.height,
+        // if (!widget.isOTPLogin)
+        //   Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //       4.height,
+        //       AppTextField(
+        //         textFieldType: TextFieldType.PASSWORD,
+        //         controller: passwordCont,
+        //         focus: passwordFocus,
+        //         readOnly: widget.isOTPLogin.validate() ? widget.isOTPLogin : false,
+        //         suffixPasswordVisibleWidget: ic_show.iconImage(size: 10).paddingAll(14),
+        //         suffixPasswordInvisibleWidget: ic_hide.iconImage(size: 10).paddingAll(14),
+        //         errorThisFieldRequired: language.requiredText,
+        //         decoration: inputDecoration(context, labelText: language.hintPasswordTxt),
+        //         onFieldSubmitted: (s) {
+        //           // if (widget.isOTPLogin) {
+        //           //   registerWithOTP();
+        //           // } else {
+        //           //   registerUser();
+        //           // }
+        //         },
+        //       ),
+        //       20.height,
+        //     ],
+        //   ),
+        // _buildTcAcceptWidget(),
         8.height,
         AppButton(
-          text: language.signUp,
+          text: language.signUp.toUpperCase(),
           color: primaryColor,
           textColor: Colors.white,
           width: context.width() - context.navigationBarHeight,
@@ -396,7 +395,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             TextSpan(text: "${language.alreadyHaveAccountTxt} ? ", style: secondaryTextStyle()),
             TextSpan(
               text: language.signIn,
-              style: boldTextStyle(color: primaryColor, size: 14),
+              style: boldTextStyle(color: primaryColor, size: 16),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
                   finish(context);
@@ -433,6 +432,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 padding: EdgeInsets.all(16),
                 child: Column(
                   children: [
+                    20.height,
                     _buildTopWidget(),
                     _buildFormWidget(),
                     8.height,

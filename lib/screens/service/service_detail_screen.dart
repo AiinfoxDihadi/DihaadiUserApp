@@ -245,9 +245,9 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
               serviceData: serviceList[index],
               width: appConfigurationStore.userDashboardType ==
                       DEFAULT_USER_DASHBOARD
-                  ? context.width() / 2 - 26
+                  ? context.width() / 2
                   : 280,
-            ).paddingOnly(right: 8),
+            ).paddingOnly(right: 2),
           ),
         16.height,
       ],
@@ -341,22 +341,22 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                   availableWidget(data: snap.data!.serviceDetail!),
                   providerWidget(data: snap.data!.provider!),
 
-                  /// Only active status package display
-                  if (snap.data!.serviceDetail!.servicePackage
-                      .validate()
-                      .isNotEmpty)
-                    PackageComponent(
-                      servicePackage:
-                          snap.data!.serviceDetail!.servicePackage.validate(),
-                      callBack: (v) {
-                        if (v != null) {
-                          selectedPackage = v;
-                        } else {
-                          selectedPackage = null;
-                        }
-                        bookNow(snap.data!);
-                      },
-                    ),
+                  // /// Only active status package display
+                  // if (snap.data!.serviceDetail!.servicePackage
+                  //     .validate()
+                  //     .isNotEmpty)
+                  //   PackageComponent(
+                  //     servicePackage:
+                  //         snap.data!.serviceDetail!.servicePackage.validate(),
+                  //     callBack: (v) {
+                  //       if (v != null) {
+                  //         selectedPackage = v;
+                  //       } else {
+                  //         selectedPackage = null;
+                  //       }
+                  //       bookNow(snap.data!);
+                  //     },
+                  //   ),
                   //
                   // /// Only active status package display
                   // if (snap.data!.serviceaddon.validate().isNotEmpty)
@@ -380,7 +380,6 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
             ),
             AppButton(
               onTap: () {
-                //Todo handle package selection
                 bookNow(snap.data!);
               },
               color: context.primaryColor,

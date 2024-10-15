@@ -96,7 +96,7 @@ class _DashboardFragmentState extends State<DashboardFragment> {
                         setState(() {});
                       },
                     ),
-                    30.height,
+                    10.height,
                     PendingBookingComponent(
                         upcomingConfirmedBooking: snap.upcomingData),
                     15.height,

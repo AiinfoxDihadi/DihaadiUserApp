@@ -3,6 +3,7 @@ import 'package:booking_system_flutter/component/back_widget.dart';
 import 'package:booking_system_flutter/component/base_scaffold_body.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/screens/auth/otp_login_screen.dart';
+import 'package:booking_system_flutter/screens/auth/sign_up_screen.dart';
 import 'package:booking_system_flutter/screens/dashboard/dashboard_screen.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
@@ -584,6 +585,32 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ),
                     _buildRememberWidget(),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "don't have an account? ",
+                            style: boldTextStyle(),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              SignUpScreen().launch(context);
+                            },
+                            child: Text(
+                              " SignUp ",
+                              style: boldTextStyle(
+                                fontStyle: FontStyle.italic,
+                                decoration: TextDecoration.underline,
+                                decorationColor: primaryColor,
+                                size: 15,
+                                  color: primaryColor),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                     // if (!getBoolAsync(HAS_IN_REVIEW)) _buildSocialWidget(),
                     30.height,
                   ],
