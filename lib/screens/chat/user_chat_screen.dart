@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:booking_system_flutter/component/back_widget.dart';
+import 'package:booking_system_flutter/component/cached_image_widget.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/chat_message_model.dart';
@@ -268,9 +269,23 @@ class _UserChatScreenState extends State<UserChatScreen> with WidgetsBindingObse
           backWidget: BackWidget(iconColor: white),
           color: context.primaryColor,
           systemUiOverlayStyle: SystemUiOverlayStyle(statusBarColor: context.primaryColor, statusBarBrightness: Brightness.dark, statusBarIconBrightness: Brightness.light),
-          titleWidget: Text(
-            "${widget.receiverUser.firstName.validate() + " " + widget.receiverUser.lastName.validate()}",
-            style: boldTextStyle(color: white, size: APP_BAR_TEXT_SIZE),
+          titleWidget: Row(
+            children: [
+              if (widget.receiverUser.profileImage.validate().isEmpty)
+                Container(
+                  height: 40,
+                  width: 40,
+                  padding: EdgeInsets.all(10),
+                  color: context.primaryColor.withOpacity(0.2),
+                ).cornerRadiusWithClipRRect(50)
+              else
+                CachedImageWidget(url: widget.receiverUser.profileImage.validate(), height: 40, circle: true, fit: BoxFit.cover),
+              10.width,
+              Text(
+                widget.receiverUser.firstName.validate() + " " + widget.receiverUser.lastName.validate(),
+                style: boldTextStyle(color: white, size: APP_BAR_TEXT_SIZE),
+              ),
+            ],
           ),
           actions: [
             PopupMenuButton(
@@ -310,7 +325,10 @@ class _UserChatScreenState extends State<UserChatScreen> with WidgetsBindingObse
             )
           ],
         ),
-        body: SizedBox(
+        body: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(image: AssetImage(appStore.isDarkMode ? 'assets/images/image 25.jpg':'assets/images/default_wallpaper.png'),fit: BoxFit.cover)
+          ),
           height: context.height(),
           width: context.width(),
           child: Stack(
@@ -343,7 +361,7 @@ class _UserChatScreenState extends State<UserChatScreen> with WidgetsBindingObse
               ),
               if (!widget.isChattingAllow)
                 Positioned(
-                  bottom: 16,
+                  bottom: 25,
                   left: 16,
                   right: 16,
                   child: _buildChatFieldWidget(),

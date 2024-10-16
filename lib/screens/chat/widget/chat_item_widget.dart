@@ -192,9 +192,6 @@ class _ChatItemWidgetState extends State<ChatItemWidget> {
                   : EdgeInsets.only(top: 2.0, bottom: 2.0, left: 8, right: isRTL ? 0 : context.width() * 0.25),
               padding: customPadding(widget.chatItemData.messageType),
               decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(color: gray, blurRadius: 0.1, spreadRadius: 0.2), //BoxShadow
-                ],
                 color: widget.chatItemData.isMe.validate() ? primaryColor : context.cardColor,
                 borderRadius: widget.chatItemData.isMe.validate() ? radiusOnly(bottomLeft: 12, topLeft: 12, bottomRight: 0, topRight: 12) : radiusOnly(bottomLeft: 0, topLeft: 12, bottomRight: 12, topRight: 12),
               ),

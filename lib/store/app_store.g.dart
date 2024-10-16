@@ -493,6 +493,38 @@ mixin _$AppStore on _AppStore, Store {
     });
   }
 
+  late final _$canResendAtom =
+      Atom(name: '_AppStore.canResend', context: context);
+
+  @override
+  bool get canResend {
+    _$canResendAtom.reportRead();
+    return super.canResend;
+  }
+
+  @override
+  set canResend(bool value) {
+    _$canResendAtom.reportWrite(value, super.canResend, () {
+      super.canResend = value;
+    });
+  }
+
+  late final _$remainingTimeAtom =
+      Atom(name: '_AppStore.remainingTime', context: context);
+
+  @override
+  int get remainingTime {
+    _$remainingTimeAtom.reportRead();
+    return super.remainingTime;
+  }
+
+  @override
+  set remainingTime(int value) {
+    _$remainingTimeAtom.reportWrite(value, super.remainingTime, () {
+      super.remainingTime = value;
+    });
+  }
+
   late final _$setPushNotificationSubscriptionStatusAsyncAction = AsyncAction(
       '_AppStore.setPushNotificationSubscriptionStatus',
       context: context);
@@ -702,6 +734,28 @@ mixin _$AppStore on _AppStore, Store {
       ActionController(name: '_AppStore', context: context);
 
   @override
+  void startTimer() {
+    final _$actionInfo =
+        _$_AppStoreActionController.startAction(name: '_AppStore.startTimer');
+    try {
+      return super.startTimer();
+    } finally {
+      _$_AppStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetTimer() {
+    final _$actionInfo =
+        _$_AppStoreActionController.startAction(name: '_AppStore.resetTimer');
+    try {
+      return super.resetTimer();
+    } finally {
+      _$_AppStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setSpeechStatus(bool val) {
     final _$actionInfo = _$_AppStoreActionController.startAction(
         name: '_AppStore.setSpeechStatus');
@@ -789,6 +843,8 @@ is24HourFormat: ${is24HourFormat},
 userWalletAmount: ${userWalletAmount},
 isSubscribedForPushNotification: ${isSubscribedForPushNotification},
 isSpeechActivated: ${isSpeechActivated},
+canResend: ${canResend},
+remainingTime: ${remainingTime},
 userFullName: ${userFullName}
     ''';
   }

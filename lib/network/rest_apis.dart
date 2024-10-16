@@ -71,6 +71,7 @@ Future<LoginResponse> loginUser(Map request, {bool isSocialLogin = false}) async
   }
 }
 
+
 Future<LoginResponse> updateProfile(Map request) async {
   return LoginResponse.fromJson(await handleResponse(await buildHttpResponse('update-profile', request: request, method: HttpMethodType.POST)));
 }

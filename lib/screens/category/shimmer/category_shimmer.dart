@@ -11,34 +11,50 @@ class CategoryShimmer extends StatelessWidget {
     return SingleChildScrollView(
       padding: EdgeInsets.all(16),
       physics: AlwaysScrollableScrollPhysics(),
-      child: AnimatedWrap(
-        key: key,
-        runSpacing: 16,
-        spacing: 16,
-        itemCount: 16,
+      child:  AnimatedListView(
+        physics: NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.only(bottom: 16, top: 16, right: 8, left: 8),
+        itemCount: 5,
+        shrinkWrap: true,
         listAnimationType: ListAnimationType.None,
-        scaleConfiguration: ScaleConfiguration(duration: 300.milliseconds, delay: 50.milliseconds),
         itemBuilder: (_, index) {
           return Container(
-            padding: EdgeInsets.all(20),
-            margin: EdgeInsets.only(bottom: 15,left: 15,right: 15),
-            child: Row(
+            width: context.width(),
+            padding: EdgeInsets.all(8),
+            margin: EdgeInsets.only(bottom: 16),
+            decoration: BoxDecoration(color: context.scaffoldBackgroundColor, border: Border.all(color: context.dividerColor), borderRadius: radius()),
+            child: Column(
               children: [
-                Center(
-                  child: ShimmerWidget(
-                    width: 40,
-                    height: 40,
-                  ),
-                ),
-                20.width,
-                ShimmerWidget(height: 20,width: 50)
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ShimmerWidget(height: 50, width: 50),
+                    16.width,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 4),
+                              decoration: BoxDecoration(borderRadius: radius(20), color: Colors.transparent),
+                              child: ShimmerWidget(height: 20, width: context.width() * 0.24),
+                            ).flexible(),
+                            8.width,
+                            ShimmerWidget(height: 20, width: 50),
+                          ],
+                        ),
+                        4.height,
+                        ShimmerWidget(height: 20, width: context.width()),
+                        4.height,
+                        ShimmerWidget(height: 20, width: context.width()),
+                      ],
+                    ).expand(),
+                  ],
+                ).paddingAll(8),
               ],
-            ),
-            decoration: BoxDecoration(
-                color: cardColor,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                    color: Color(0xffEBEBEB), width: 1.5)),
+            ).paddingAll(8),
           );
         },
       ),

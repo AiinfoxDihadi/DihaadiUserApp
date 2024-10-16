@@ -25,14 +25,6 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.438524885554-8ljhtg9s08f65pekucqb5cdkfrq5d214</string>
-			</array>
-		</dict>
-		<dict>
 			<key>CFBundleURLName</key>
 			<string>com.PhonePe-iOS-Intent-SDK-Integration</string>
 			<key>CFBundleURLSchemes</key>

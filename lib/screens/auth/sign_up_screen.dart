@@ -4,6 +4,7 @@ import 'package:booking_system_flutter/component/selected_item_widget.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/user_data_model.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
+import 'package:booking_system_flutter/screens/auth/sign_in_screen.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/configs.dart';
@@ -256,7 +257,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           controller: emailCont,
           focus: emailFocus,
           errorThisFieldRequired: language.requiredText,
-          decoration: inputDecoration(context, labelText: language.hintEmailTxt),
+          decoration: inputDecoration(context, labelText: language.hintContactNumberTxt),
           suffix: ic_calling.iconImage(size: 10).paddingAll(14),
         ),
         16.height,
@@ -343,7 +344,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
             if (widget.isOTPLogin) {
               registerWithOTP();
             } else {
-              registerUser();
+              if(formKey.currentState!.validate()) {
+                appStore.setLoading(true);
+                Future.delayed(Duration(seconds: 3),() {
+                  appStore.setLoading(false);
+                  finish(context);
+                });
+
+              }
+              // registerUser();
             }
           },
         ),
@@ -428,18 +437,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Form(
               key: formKey,
               autovalidateMode: isFirstTimeValidation ? AutovalidateMode.disabled : AutovalidateMode.onUserInteraction,
-              child: SingleChildScrollView(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    20.height,
-                    _buildTopWidget(),
-                    _buildFormWidget(),
-                    8.height,
-                    _buildFooterWidget(),
-                  ],
-                ),
-              ),
+              child: Column(
+                children: [
+                  20.height,
+                  _buildTopWidget(),
+                  _buildFormWidget(),
+                  8.height,
+                  _buildFooterWidget(),
+                ],
+              ).paddingAll(16),
             ),
             Observer(builder: (_) => LoaderWidget().center().visible(appStore.isLoading)),
           ],

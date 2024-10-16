@@ -1,8 +1,8 @@
+import 'dart:math';
 import 'package:booking_system_flutter/aiinfox/mockdata/sigin_data.dart';
 import 'package:booking_system_flutter/component/back_widget.dart';
 import 'package:booking_system_flutter/component/base_scaffold_body.dart';
 import 'package:booking_system_flutter/main.dart';
-import 'package:booking_system_flutter/screens/auth/otp_login_screen.dart';
 import 'package:booking_system_flutter/screens/auth/sign_up_screen.dart';
 import 'package:booking_system_flutter/screens/dashboard/dashboard_screen.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
@@ -11,6 +11,7 @@ import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
 import 'package:booking_system_flutter/utils/validators/validators.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -73,6 +74,47 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
+  String otp = '';
+
+  Future<void> handleOtp() async {
+    appStore.setLoading(true);
+    final Dio dio = Dio();
+    final String apiKey = 'Ssvpd7EcZ2LVAkjhemDwKaBW8rG4nzQU6Ogbt5xH0FITM9oPqym6CPLFA8KBanTtO7xvrwz5S2pRqhcI';
+    final String url = 'https://www.fast2sms.com/dev/bulkV2';
+    otp = fourDigit().toString();
+    final Map<String, dynamic> queryParameters = {
+      'authorization': apiKey,
+      'route': 'dlt',
+      'sender_id': 'NABOTP',
+      'message': '171269',
+      'variables_values': int.parse(otp),
+      'flash': '0',
+      'numbers': emailCont.text,
+    };
+
+    try {
+      final response = await dio.get(url, queryParameters: queryParameters);
+      if (response.statusCode == 200) {
+          toast('Otp send Successfully');
+          appStore.startTimer();
+          appStore.setLoading(false);
+          authstore.toggleVisibility();
+      } else {
+        print('Error: ${response.statusCode}');
+        appStore.setLoading(false);
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      toast('Something Went Wrong');
+      appStore.setLoading(false);
+    }
+  }
+
+  int fourDigit() {
+    final Random random = Random();
+    return 1000 + random.nextInt(9000);
+  }
+
   void _handleLoginUsers() async {
     hideKeyboard(context);
     Map<String, dynamic> request = {
@@ -87,13 +129,13 @@ class _SignInScreenState extends State<SignInScreen> {
 
       await saveUserData(loginResponse.userData!);
 
-      await setValue(USER_PASSWORD, passwordCont.text);
+      await setValue(USER_PASSWORD, '12345678');
       await setValue(IS_REMEMBERED, isRemember);
       await appStore.setLoginType(LOGIN_TYPE_USER);
+      await appStore.setLoggedIn(true);
 
       authService.verifyFirebaseUser();
       TextInput.finishAutofillContext();
-
       onLoginSuccessRedirection();
     } catch (e) {
       appStore.setLoading(false);
@@ -101,72 +143,72 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
-  void googleSignIn() async {
-    appStore.setLoading(true);
-    await authService.signInWithGoogle(context).then((googleUser) async {
-      String firstName = '';
-      String lastName = '';
-      if (googleUser.displayName.validate().split(' ').length >= 1)
-        firstName = googleUser.displayName.splitBefore(' ');
-      if (googleUser.displayName.validate().split(' ').length >= 2)
-        lastName = googleUser.displayName.splitAfter(' ');
-
-      Map<String, dynamic> request = {
-        'first_name': firstName,
-        'last_name': lastName,
-        'email': googleUser.email,
-        'username':
-            googleUser.email.splitBefore('@').replaceAll('.', '').toLowerCase(),
-        // 'password': passwordCont.text.trim(),
-        'social_image': googleUser.photoURL,
-        'login_type': LOGIN_TYPE_GOOGLE,
-      };
-      var loginResponse = await loginUser(request, isSocialLogin: true);
-
-      loginResponse.userData!.profileImage = googleUser.photoURL.validate();
-
-      await saveUserData(loginResponse.userData!);
-      appStore.setLoginType(LOGIN_TYPE_GOOGLE);
-
-      authService.verifyFirebaseUser();
-
-      onLoginSuccessRedirection();
-      appStore.setLoading(false);
-    }).catchError((e) {
-      appStore.setLoading(false);
-      log(e.toString());
-      toast(e.toString());
-    });
-  }
-
-  void appleSign() async {
-    appStore.setLoading(true);
-
-    await authService.appleSignIn().then((req) async {
-      await loginUser(req, isSocialLogin: true).then((value) async {
-        await saveUserData(value.userData!);
-        appStore.setLoginType(LOGIN_TYPE_APPLE);
-
-        appStore.setLoading(false);
-        authService.verifyFirebaseUser();
-
-        onLoginSuccessRedirection();
-      }).catchError((e) {
-        appStore.setLoading(false);
-        log(e.toString());
-        throw e;
-      });
-    }).catchError((e) {
-      appStore.setLoading(false);
-      toast(e.toString());
-    });
-  }
-
-  void otpSignIn() async {
-    hideKeyboard(context);
-
-    OTPLoginScreen().launch(context);
-  }
+  // void googleSignIn() async {
+  //   appStore.setLoading(true);
+  //   await authService.signInWithGoogle(context).then((googleUser) async {
+  //     String firstName = '';
+  //     String lastName = '';
+  //     if (googleUser.displayName.validate().split(' ').length >= 1)
+  //       firstName = googleUser.displayName.splitBefore(' ');
+  //     if (googleUser.displayName.validate().split(' ').length >= 2)
+  //       lastName = googleUser.displayName.splitAfter(' ');
+  //
+  //     Map<String, dynamic> request = {
+  //       'first_name': firstName,
+  //       'last_name': lastName,
+  //       'email': googleUser.email,
+  //       'username':
+  //           googleUser.email.splitBefore('@').replaceAll('.', '').toLowerCase(),
+  //       // 'password': passwordCont.text.trim(),
+  //       'social_image': googleUser.photoURL,
+  //       'login_type': LOGIN_TYPE_GOOGLE,
+  //     };
+  //     var loginResponse = await loginUser(request, isSocialLogin: true);
+  //
+  //     loginResponse.userData!.profileImage = googleUser.photoURL.validate();
+  //
+  //     await saveUserData(loginResponse.userData!);
+  //     appStore.setLoginType(LOGIN_TYPE_GOOGLE);
+  //
+  //     authService.verifyFirebaseUser();
+  //
+  //     onLoginSuccessRedirection();
+  //     appStore.setLoading(false);
+  //   }).catchError((e) {
+  //     appStore.setLoading(false);
+  //     log(e.toString());
+  //     toast(e.toString());
+  //   });
+  // }
+  //
+  // void appleSign() async {
+  //   appStore.setLoading(true);
+  //
+  //   await authService.appleSignIn().then((req) async {
+  //     await loginUser(req, isSocialLogin: true).then((value) async {
+  //       await saveUserData(value.userData!);
+  //       appStore.setLoginType(LOGIN_TYPE_APPLE);
+  //
+  //       appStore.setLoading(false);
+  //       authService.verifyFirebaseUser();
+  //
+  //       onLoginSuccessRedirection();
+  //     }).catchError((e) {
+  //       appStore.setLoading(false);
+  //       log(e.toString());
+  //       throw e;
+  //     });
+  //   }).catchError((e) {
+  //     appStore.setLoading(false);
+  //     toast(e.toString());
+  //   });
+  // }
+  //
+  // void otpSignIn() async {
+  //   hideKeyboard(context);
+  //
+  //   OTPLoginScreen().launch(context);
+  // }
 
   void onLoginSuccessRedirection() {
     afterBuildCreated(() {
@@ -255,9 +297,7 @@ class _SignInScreenState extends State<SignInScreen> {
           width: context.width() - context.navigationBarHeight,
           onTap: authstore.isOTPVisible
               ? () {
-                  if ('1234' == passwordCont.text.trim()) {
-                    toast('Login succussfully');
-                    appStore.setLoggedIn(true);
+                  if (otp.trim() == passwordCont.text.trim()) {
                     _handleLogin();
                     // DashboardScreen().launch(context,
                     //     isNewTask: true,
@@ -267,12 +307,8 @@ class _SignInScreenState extends State<SignInScreen> {
                   }
                 }
               : () {
-                  if (emailCont.text.trim() == '9876543210') {
-                    toast('OTP send succussfully');
-                    authstore.toggleVisibility();
-                  } else {
-                    toast('please check your phone number');
-                  }
+                    handleOtp();
+
                 },
         ),
         16.height,
@@ -323,110 +359,110 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Widget _buildSocialWidget() {
-    if (appConfigurationStore.socialLoginStatus) {
-      return Column(
-        children: [
-          20.height,
-          if ((appConfigurationStore.googleLoginStatus ||
-                  appConfigurationStore.otpLoginStatus) ||
-              (isIOS && appConfigurationStore.appleLoginStatus))
-            Row(
-              children: [
-                Divider(color: context.dividerColor, thickness: 2).expand(),
-                16.width,
-                Text(language.lblOrContinueWith, style: secondaryTextStyle()),
-                16.width,
-                Divider(color: context.dividerColor, thickness: 2).expand(),
-              ],
-            ),
-          24.height,
-          if (appConfigurationStore.googleLoginStatus)
-            AppButton(
-              text: '',
-              color: context.cardColor,
-              padding: EdgeInsets.all(8),
-              textStyle: boldTextStyle(),
-              width: context.width() - context.navigationBarHeight,
-              child: Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(12),
-                    decoration: boxDecorationWithRoundedCorners(
-                      backgroundColor: primaryColor.withOpacity(0.1),
-                      boxShape: BoxShape.circle,
-                    ),
-                    child: GoogleLogoWidget(size: 16),
-                  ),
-                  Text(language.lblSignInWithGoogle,
-                          style: boldTextStyle(size: 12),
-                          textAlign: TextAlign.center)
-                      .expand(),
-                ],
-              ),
-              onTap: googleSignIn,
-            ),
-          if (appConfigurationStore.googleLoginStatus) 16.height,
-          if (appConfigurationStore.otpLoginStatus)
-            AppButton(
-              text: '',
-              color: context.cardColor,
-              padding: EdgeInsets.all(8),
-              textStyle: boldTextStyle(),
-              width: context.width() - context.navigationBarHeight,
-              child: Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: boxDecorationWithRoundedCorners(
-                      backgroundColor: primaryColor.withOpacity(0.1),
-                      boxShape: BoxShape.circle,
-                    ),
-                    child: ic_calling
-                        .iconImage(size: 18, color: primaryColor)
-                        .paddingAll(4),
-                  ),
-                  Text(language.lblSignInWithOTP,
-                          style: boldTextStyle(size: 12),
-                          textAlign: TextAlign.center)
-                      .expand(),
-                ],
-              ),
-              onTap: otpSignIn,
-            ),
-          if (appConfigurationStore.otpLoginStatus) 16.height,
-          if (isIOS)
-            if (appConfigurationStore.appleLoginStatus)
-              AppButton(
-                text: '',
-                color: context.cardColor,
-                padding: EdgeInsets.all(8),
-                textStyle: boldTextStyle(),
-                width: context.width() - context.navigationBarHeight,
-                child: Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: boxDecorationWithRoundedCorners(
-                        backgroundColor: primaryColor.withOpacity(0.1),
-                        boxShape: BoxShape.circle,
-                      ),
-                      child: Icon(Icons.apple),
-                    ),
-                    Text(language.lblSignInWithApple,
-                            style: boldTextStyle(size: 12),
-                            textAlign: TextAlign.center)
-                        .expand(),
-                  ],
-                ),
-                onTap: appleSign,
-              ),
-        ],
-      );
-    } else {
-      return Offstage();
-    }
-  }
+  // Widget _buildSocialWidget() {
+  //   if (appConfigurationStore.socialLoginStatus) {
+  //     return Column(
+  //       children: [
+  //         20.height,
+  //         if ((appConfigurationStore.googleLoginStatus ||
+  //                 appConfigurationStore.otpLoginStatus) ||
+  //             (isIOS && appConfigurationStore.appleLoginStatus))
+  //           Row(
+  //             children: [
+  //               Divider(color: context.dividerColor, thickness: 2).expand(),
+  //               16.width,
+  //               Text(language.lblOrContinueWith, style: secondaryTextStyle()),
+  //               16.width,
+  //               Divider(color: context.dividerColor, thickness: 2).expand(),
+  //             ],
+  //           ),
+  //         24.height,
+  //         if (appConfigurationStore.googleLoginStatus)
+  //           AppButton(
+  //             text: '',
+  //             color: context.cardColor,
+  //             padding: EdgeInsets.all(8),
+  //             textStyle: boldTextStyle(),
+  //             width: context.width() - context.navigationBarHeight,
+  //             child: Row(
+  //               children: [
+  //                 Container(
+  //                   padding: EdgeInsets.all(12),
+  //                   decoration: boxDecorationWithRoundedCorners(
+  //                     backgroundColor: primaryColor.withOpacity(0.1),
+  //                     boxShape: BoxShape.circle,
+  //                   ),
+  //                   child: GoogleLogoWidget(size: 16),
+  //                 ),
+  //                 Text(language.lblSignInWithGoogle,
+  //                         style: boldTextStyle(size: 12),
+  //                         textAlign: TextAlign.center)
+  //                     .expand(),
+  //               ],
+  //             ),
+  //             onTap: googleSignIn,
+  //           ),
+  //         if (appConfigurationStore.googleLoginStatus) 16.height,
+  //         if (appConfigurationStore.otpLoginStatus)
+  //           AppButton(
+  //             text: '',
+  //             color: context.cardColor,
+  //             padding: EdgeInsets.all(8),
+  //             textStyle: boldTextStyle(),
+  //             width: context.width() - context.navigationBarHeight,
+  //             child: Row(
+  //               children: [
+  //                 Container(
+  //                   padding: EdgeInsets.all(8),
+  //                   decoration: boxDecorationWithRoundedCorners(
+  //                     backgroundColor: primaryColor.withOpacity(0.1),
+  //                     boxShape: BoxShape.circle,
+  //                   ),
+  //                   child: ic_calling
+  //                       .iconImage(size: 18, color: primaryColor)
+  //                       .paddingAll(4),
+  //                 ),
+  //                 Text(language.lblSignInWithOTP,
+  //                         style: boldTextStyle(size: 12),
+  //                         textAlign: TextAlign.center)
+  //                     .expand(),
+  //               ],
+  //             ),
+  //             onTap: otpSignIn,
+  //           ),
+  //         if (appConfigurationStore.otpLoginStatus) 16.height,
+  //         if (isIOS)
+  //           if (appConfigurationStore.appleLoginStatus)
+  //             AppButton(
+  //               text: '',
+  //               color: context.cardColor,
+  //               padding: EdgeInsets.all(8),
+  //               textStyle: boldTextStyle(),
+  //               width: context.width() - context.navigationBarHeight,
+  //               child: Row(
+  //                 children: [
+  //                   Container(
+  //                     padding: EdgeInsets.all(8),
+  //                     decoration: boxDecorationWithRoundedCorners(
+  //                       backgroundColor: primaryColor.withOpacity(0.1),
+  //                       boxShape: BoxShape.circle,
+  //                     ),
+  //                     child: Icon(Icons.apple),
+  //                   ),
+  //                   Text(language.lblSignInWithApple,
+  //                           style: boldTextStyle(size: 12),
+  //                           textAlign: TextAlign.center)
+  //                       .expand(),
+  //                 ],
+  //               ),
+  //               onTap: appleSign,
+  //             ),
+  //       ],
+  //     );
+  //   } else {
+  //     return Offstage();
+  //   }
+  // }
 
 //endregion
 
@@ -524,7 +560,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                   )
                                 : ic_phone.iconImage(size: 5).paddingAll(16),
                           ),
-
                           // AppTextField(
                           //   textFieldType: TextFieldType.PASSWORD,
                           //   controller: passwordCont,
@@ -571,10 +606,16 @@ class _SignInScreenState extends State<SignInScreen> {
                                               .toUpperCase(),
                                           style: boldTextStyle(),
                                         ),
-                                        Text(
-                                          " resend otp ".toUpperCase(),
-                                          style: boldTextStyle(
-                                              color: primaryColor),
+                                        GestureDetector(
+                                          onTap: () {
+                                            appStore.canResend ? appStore.startTimer() : null;
+                                          },
+                                          child: Text(
+                                            appStore.canResend ? " resend otp ".toUpperCase() : " ${appStore.remainingTime.toString()}",
+                                            style: boldTextStyle(
+                                              size: appStore.canResend ? 15 : 22,
+                                                color: primaryColor),
+                                          ),
                                         )
                                       ],
                                     ),

@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:math';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/user_data_model.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
@@ -13,6 +13,21 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 
 class AuthService {
+
+  String generateRandomEmail() {
+    final Random random = Random();
+    String username = _generateRandomString(random, 8); // 8 characters long
+
+    List<String> domains = ['gmail.com'];
+    String domain = domains[random.nextInt(domains.length)];
+    return '$username@$domain';
+  }
+
+  String _generateRandomString(Random random, int length) {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    return List.generate(length, (index) => chars[random.nextInt(chars.length)]).join();
+  }
+
   //region Handle Firebase User Login and Sign Up for Chat module
   Future<UserCredential> getFirebaseUser() async {
     UserCredential? userCredential;
@@ -22,7 +37,7 @@ class AuthService {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         /// register user in Firebase
-        userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: 'demo@user.com', password: DEFAULT_FIREBASE_PASSWORD);
+        userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: generateRandomEmail(), password: DEFAULT_FIREBASE_PASSWORD);
       }
     }
     if (userCredential != null && userCredential.user == null) {

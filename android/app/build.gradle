@@ -51,7 +51,7 @@ android {
         applicationId 'com.dihaadi.aiinfox'
         minSdkVersion 25
         targetSdkVersion 34
-        versionCode 3
+        versionCode 4
         versionName '1.0.0'
     }
     

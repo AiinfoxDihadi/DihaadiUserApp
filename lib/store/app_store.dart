@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:booking_system_flutter/locale/app_localizations.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
@@ -107,6 +109,36 @@ abstract class _AppStore with Store {
 
   @observable
   bool isSpeechActivated = false;
+
+  @observable
+  bool canResend = false;
+
+  @observable
+  int remainingTime = 30;
+
+  Timer? _timer;
+
+  @action
+  void startTimer() {
+    remainingTime = 30;
+    canResend = false;
+    _timer?.cancel();
+    _timer = Timer.periodic(Duration(seconds: 1), (_) {
+      if (remainingTime > 0) {
+        remainingTime--;
+      } else {
+        canResend = true;
+        _timer?.cancel();
+      }
+    });
+  }
+
+  @action
+  void resetTimer() {
+    remainingTime = 30;
+    canResend = false;
+    _timer?.cancel();
+  }
 
   @action
   void setSpeechStatus(bool val) {
@@ -316,5 +348,9 @@ abstract class _AppStore with Store {
     errorSomethingWentWrong = language.somethingWentWrong;
     errorThisFieldRequired = language.requiredText;
     errorInternetNotAvailable = language.internetNotAvailable;
+  }
+
+  void dispose() {
+    _timer?.cancel();
   }
 }

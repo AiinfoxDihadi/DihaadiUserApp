@@ -35,14 +35,14 @@ class _UserItemWidgetState extends State<UserItemWidget> {
                 children: [
                   if (data.profileImage.validate().isEmpty)
                     Container(
-                      height: 40,
-                      width: 40,
+                      height: 60,
+                      width: 60,
                       padding: EdgeInsets.all(6),
                       color: context.primaryColor.withOpacity(0.2),
                       child: Text(data.displayName.validate()[0].validate().toUpperCase(), style: boldTextStyle(color: context.primaryColor)).center().fit(),
                     ).cornerRadiusWithClipRRect(50)
                   else
-                    CachedImageWidget(url: data.profileImage.validate(), height: 40, circle: true, fit: BoxFit.cover),
+                    CachedImageWidget(url: data.profileImage.validate(), height: 60, circle: true, fit: BoxFit.cover),
                   16.width,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
