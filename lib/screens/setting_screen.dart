@@ -29,17 +29,17 @@ class _SettingScreenState extends State<SettingScreen> {
         listAnimationType: ListAnimationType.FadeIn,
         fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),
         children: [
-          if (isLoginTypeUser)
-            SettingItemWidget(
-              leading: ic_lock.iconImage(size: SETTING_ICON_SIZE),
-              title: language.changePassword,
-              trailing: trailing,
-              onTap: () {
-                doIfLoggedIn(context, () {
-                  ChangePasswordScreen().launch(context);
-                });
-              },
-            ),
+          // if (isLoginTypeUser)
+          //   SettingItemWidget(
+          //     leading: ic_lock.iconImage(size: SETTING_ICON_SIZE),
+          //     title: language.changePassword,
+          //     trailing: trailing,
+          //     onTap: () {
+          //       doIfLoggedIn(context, () {
+          //         ChangePasswordScreen().launch(context);
+          //       });
+          //     },
+          //   ),
           SettingItemWidget(
             leading: ic_language.iconImage(size: 17).paddingOnly(left: 2),
             paddingAfterLeading: 16,

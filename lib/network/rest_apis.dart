@@ -114,8 +114,9 @@ Future<void> saveUserData(UserData data, {bool forceSyncAppConfigurations = true
   await appStore.setContactNumber(data.contactNumber.validate());
   await appStore.setLoginType(data.loginType.validate(value: LOGIN_TYPE_USER));
   await appStore.setAddress(data.address.validate());
-
   await appStore.setUserProfile(data.profileImage.validate());
+
+  print('profile image ====================+>${appStore.userProfileImage}');
 
   /// Subscribe Firebase Topic
   subscribeToFirebaseTopic();

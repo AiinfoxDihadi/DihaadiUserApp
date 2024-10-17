@@ -13,17 +13,14 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 
 class AuthService {
+  final Random random = Random();
 
   String generateRandomEmail() {
-    final Random random = Random();
-    String username = _generateRandomString(random, 8); // 8 characters long
-
-    List<String> domains = ['gmail.com'];
-    String domain = domains[random.nextInt(domains.length)];
-    return '$username@$domain';
+    String username = _generateRandomString(8); // 8 characters long
+    return '$username@gmail.com';
   }
 
-  String _generateRandomString(Random random, int length) {
+  String _generateRandomString(int length) {
     const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
     return List.generate(length, (index) => chars[random.nextInt(chars.length)]).join();
   }
@@ -31,17 +28,19 @@ class AuthService {
   //region Handle Firebase User Login and Sign Up for Chat module
   Future<UserCredential> getFirebaseUser() async {
     UserCredential? userCredential;
+
+    print(appStore.userEmail);
     try {
       /// login with Firebase
-      userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: 'demo@user.com', password: DEFAULT_FIREBASE_PASSWORD);
+      userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: appStore.userEmail, password: '12345678');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         /// register user in Firebase
-        userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: generateRandomEmail(), password: DEFAULT_FIREBASE_PASSWORD);
+        userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: appStore.userEmail, password: '12345678');
       }
     }
     if (userCredential != null && userCredential.user == null) {
-      userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: 'demo@user.com', password: DEFAULT_FIREBASE_PASSWORD);
+      userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: appStore.userEmail, password: '12345678');
     }
 
     if (userCredential != null) {
@@ -83,7 +82,7 @@ class AuthService {
       }
 
       /// Update UID & Profile Image in Laravel DB
-      updateProfile({'uid': userCredential.user!.uid});
+      await updateProfile({'uid': userCredential.user!.uid});
 
       await appStore.setUId(userCredential.user!.uid);
     } catch (e) {

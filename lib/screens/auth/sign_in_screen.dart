@@ -117,31 +117,31 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _handleLoginUsers() async {
     hideKeyboard(context);
-    Map<String, dynamic> request = {
-      'email': 'demo@user.com',
-      'password': '12345678',
-      'login_type': 'user',
-    };
+      Map<String, dynamic> request = {
+        'email': "${emailCont.text.trim()}@gmail.com",
+        'password': '12345678',
+        'login_type': 'user',
+      };
 
-    appStore.setLoading(true);
-    try {
-      final loginResponse = await loginUser(request, isSocialLogin: false);
+      appStore.setLoading(true);
+      try {
+        final loginResponse = await loginUser(request, isSocialLogin: false);
 
-      await saveUserData(loginResponse.userData!);
-
-      await setValue(USER_PASSWORD, '12345678');
-      await setValue(IS_REMEMBERED, isRemember);
-      await appStore.setLoginType(LOGIN_TYPE_USER);
-      await appStore.setLoggedIn(true);
-
-      authService.verifyFirebaseUser();
-      TextInput.finishAutofillContext();
-      onLoginSuccessRedirection();
-    } catch (e) {
-      appStore.setLoading(false);
-      toast(e.toString());
+        await saveUserData(loginResponse.userData!);
+        await appStore.setUserEmail("${emailCont.text.trim()}@gmail.com");
+        await setValue(USER_PASSWORD, '12345678');
+        await setValue(IS_REMEMBERED, isRemember);
+        await appStore.setLoginType(LOGIN_TYPE_USER);
+        await appStore.setLoggedIn(true);
+        await authService.verifyFirebaseUser();
+        TextInput.finishAutofillContext();
+        onLoginSuccessRedirection();
+      } catch (e) {
+        appStore.setLoading(false);
+        toast(e.toString());
+      }
     }
-  }
+
 
   // void googleSignIn() async {
   //   appStore.setLoading(true);
@@ -298,6 +298,7 @@ class _SignInScreenState extends State<SignInScreen> {
           onTap: authstore.isOTPVisible
               ? () {
                   if (otp.trim() == passwordCont.text.trim()) {
+                    print('jelo');
                     _handleLogin();
                     // DashboardScreen().launch(context,
                     //     isNewTask: true,
@@ -542,20 +543,16 @@ class _SignInScreenState extends State<SignInScreen> {
                             suffix: authstore.isOTPVisible
                                 ? Padding(
                                     padding: const EdgeInsets.only(top: 16.0),
-                                    child: Observer(
-                                      builder: (BuildContext context) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            print('helllllllllllllllo');
-                                            authstore.toggleVisibility();
-                                          },
-                                          child: Text(
-                                            'Edit',
-                                            style: primaryTextStyle(
-                                                color: primaryColor),
-                                          ),
-                                        );
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        print('helllllllllllllllo');
+                                        authstore.toggleVisibility();
                                       },
+                                      child: Text(
+                                        'Edit',
+                                        style: primaryTextStyle(
+                                            color: primaryColor),
+                                      ),
                                     ),
                                   )
                                 : ic_phone.iconImage(size: 5).paddingAll(16),
@@ -590,7 +587,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                   15.height,
                                   Center(
                                     child: OTPTextField(
-                                      cursorColor: Color(0xffE9ECEF),
+                                      textStyle: primaryTextStyle(),
+                                      cursorColor: primaryColor,
                                       onCompleted: (pin) {
                                         passwordCont.text = pin;
                                       },
@@ -783,7 +781,7 @@ class OTPTextFieldState extends State<OTPTextField> {
           decoration: widget.boxDecoration ??
               BoxDecoration(
                 border: Border.all(
-                  color: Color(0xFFE9ECEF),
+                  color: context.dividerColor,
                   width: list[index].focusNode!.hasFocus ? 2 : 1,
                 ),
                 borderRadius: radius(8),

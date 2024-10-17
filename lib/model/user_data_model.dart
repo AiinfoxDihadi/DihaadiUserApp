@@ -36,6 +36,8 @@ class UserData {
   String? timeZone;
   String? lastNotificationSeen;
   String? uid;
+  String? gender;
+  int? age;
   String? socialImage;
   String? loginType;
   int? serviceAddressId;
@@ -148,6 +150,8 @@ class UserData {
     this.otpCode,
     this.totalBooking,
     this.emailVerified,
+    this.age,
+    this.gender
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) {
@@ -205,6 +209,8 @@ class UserData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.address != null) data['address'] = this.address;
+    if(this.age != null) data['age'] = this.age;
+    if(this.gender != null) data['gender'] = this.gender;
     if (this.apiToken != null) data['api_token'] = this.apiToken;
     if (this.cityId != null) data['city_id'] = this.cityId;
     if (this.password != null) data['password'] = this.password;

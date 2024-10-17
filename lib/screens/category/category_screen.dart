@@ -149,12 +149,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
                               )
                                   : Center(
                                 child: CachedImageWidget(
-                                  url: (snap[i].categoryImage)
-                                      .validate(),
+                                  url: (snap[i].categoryImage).validate(),
                                   fit: BoxFit.cover,
                                   width: 40,
                                   height: 40,
                                   radius: 8,
+                                  color:  appStore.isDarkMode ? Colors.white : Colors.black,
                                   circle: true,
                                   placeHolderImage: '',
                                 ),
@@ -169,7 +169,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(
-                                  color: Color(0xffEBEBEB), width: 1.5)),
+                                  color: context.dividerColor, width: 1.5)),
                         ),
                         Positioned(
                           right: 0,

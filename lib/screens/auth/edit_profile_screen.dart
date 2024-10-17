@@ -422,17 +422,6 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 16.height,
                 AppTextField(
                   textFieldType: TextFieldType.NAME,
-                  controller: lNameCont,
-                  focus: lNameFocus,
-                  errorThisFieldRequired: language.requiredText,
-                  nextFocus: userNameFocus,
-                  enabled: !isLoginTypeApple,
-                  decoration: inputDecoration(context, labelText: language.hintLastNameTxt),
-                  suffix: ic_profile2.iconImage(size: 10).paddingAll(14),
-                ),
-                16.height,
-                AppTextField(
-                  textFieldType: TextFieldType.NAME,
                   controller: userNameCont,
                   focus: userNameFocus,
                   enabled: false,
@@ -442,45 +431,6 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   suffix: ic_profile2.iconImage(size: 10).paddingAll(14),
                 ),
                 16.height,
-                AppTextField(
-                  textFieldType: TextFieldType.EMAIL_ENHANCED,
-                  controller: emailCont,
-                  focus: emailFocus,
-                  nextFocus: mobileFocus,
-                  errorThisFieldRequired: language.requiredText,
-                  decoration: inputDecoration(context, labelText: language.hintEmailTxt),
-                  suffix: ic_message.iconImage(size: 10).paddingAll(14),
-                  onFieldSubmitted: (email) async {
-                    if (emailCont.text.isNotEmpty) await verifyEmail();
-                  },
-                ),
-                Align(
-                  alignment: AlignmentDirectional.centerEnd,
-                  child: Wrap(
-                    spacing: 4,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      Text(
-                        isEmailVerified ? language.verified : language.verifyEmail,
-                        style: isEmailVerified ? secondaryTextStyle(color: Colors.green) : secondaryTextStyle(),
-                      ),
-                      if (!isEmailVerified && !showRefresh)
-                        ic_pending.iconImage(color: Colors.amber, size: 14)
-                      else
-                        Icon(
-                          isEmailVerified ? Icons.check_circle : Icons.refresh,
-                          color: isEmailVerified ? Colors.green : Colors.grey,
-                          size: 16,
-                        )
-                    ],
-                  ).paddingSymmetric(horizontal: 6, vertical: 2).onTap(
-                    () {
-                      verifyEmail();
-                    },
-                    borderRadius: radius(),
-                  ),
-                ).paddingSymmetric(vertical: 4),
-                10.height,
                 // AppTextField(
                 //   textFieldType: isAndroid ? TextFieldType.PHONE : TextFieldType.NAME,
                 //   controller: mobileCont,
@@ -502,52 +452,19 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 //     return null;
                 //   },
                 // ),
-
-                Row(
-                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // Country code ...
-                    Container(
-                      margin: EdgeInsets.only(bottom: 17),
-                      height: 48.0,
-                      decoration: BoxDecoration(
-                        color: context.cardColor,
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: Center(
-                        child: ValueListenableBuilder(
-                          valueListenable: _valueNotifier,
-                          builder: (context, value, child) => Row(
-                            children: [
-                              Text(
-                                "+${selectedCountryCode.phoneCode}",
-                                style: primaryTextStyle(size: 12),
-                              ),
-                              Icon(Icons.arrow_drop_down)
-                            ],
-                          ).paddingOnly(left: 8),
-                        ),
-                      ),
-                    ).onTap(() => changeCountry()),
-                    10.width,
-                    // Mobile number text field...
-                    Expanded(
-                      child: AppTextField(
-                        textFieldType: isAndroid ? TextFieldType.PHONE : TextFieldType.NAME,
-                        controller: mobileCont,
-                        focus: mobileFocus,
-                        enabled: !isLoginTypeOTP,
-                        isValidationRequired: false,
-                        errorThisFieldRequired: language.requiredText,
-                        decoration: inputDecoration(context, hintText: '${language.hintContactNumberTxt}').copyWith(
-                          // hintText: '${selectedCountry.example}',
-                          hintStyle: secondaryTextStyle(),
-                        ),
-                        maxLength: 15,
-                        suffix: ic_calling.iconImage(size: 10).paddingAll(14),
-                      ),
-                    ),
-                  ],
+                AppTextField(
+                  textFieldType: isAndroid ? TextFieldType.PHONE : TextFieldType.NAME,
+                  controller: mobileCont,
+                  focus: mobileFocus,
+                  enabled: !isLoginTypeOTP,
+                  isValidationRequired: false,
+                  errorThisFieldRequired: language.requiredText,
+                  decoration: inputDecoration(context, hintText: '${language.hintContactNumberTxt}').copyWith(
+                    // hintText: '${selectedCountry.example}',
+                    hintStyle: secondaryTextStyle(),
+                  ),
+                  maxLength: 10,
+                  suffix: ic_calling.iconImage(size: 10).paddingAll(14),
                 ),
                 16.height,
                 Row(

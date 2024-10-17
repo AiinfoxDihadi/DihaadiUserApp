@@ -163,8 +163,6 @@ class ProfileFragmentState extends State<ProfileFragment> {
                             Text(appStore.userFullName,
                                 style: boldTextStyle(
                                     color: primaryColor, size: 16)),
-                            Text(appStore.userEmail,
-                                style: secondaryTextStyle()),
                           ],
                         ),
                         24.height,

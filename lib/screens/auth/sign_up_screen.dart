@@ -11,6 +11,7 @@ import 'package:booking_system_flutter/utils/configs.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -157,18 +158,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
       /// If Terms and condition is Accepted then only the user will be registered
       // if (isAcceptedTc) {
         appStore.setLoading(true);
-
         /// Create a temporary request to send
         UserData tempRegisterData = UserData()
-          ..contactNumber = buildMobileNumber()
+          ..contactNumber = '+91-${emailCont.text.trim()}'
           ..firstName = fNameCont.text.trim()
-          ..lastName = lNameCont.text.trim()
+          ..lastName = ''
           ..loginType = LOGIN_TYPE_USER
           ..userType = USER_TYPE_USER
           ..username = userNameCont.text.trim()
-          ..email = emailCont.text.trim()
-          ..password = passwordCont.text.trim();
-
+          ..email = "${emailCont.text.trim()}@gmail.com"
+          ..gender = 'male'
+          ..age = 18
+          ..password = '12345678';
+          appStore.setContactNumber(emailCont.text.trim());
         createUsers(tempRegisterData: tempRegisterData);
       // } else {
       //   toast(language.termsConditionsAccept);
@@ -180,20 +182,55 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void> createUsers({required UserData tempRegisterData}) async {
-    await createUser(tempRegisterData.toJson()).then((registerResponse) async {
+    appStore.setLoading(true);
+
+    try {
+      var registerResponse = await createUser(tempRegisterData.toJson());
       registerResponse.userData!.password = passwordCont.text.trim();
 
-      appStore.setLoading(false);
-      toast(registerResponse.message.validate());
-      await appStore.setLoginType(tempRegisterData.loginType!);
+      UserCredential userCredential;
 
-      /// Back to sign in screen
-      finish(context);
-    }).catchError((e) {
+      try {
+        userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: registerResponse.userData?.email ?? '',
+          password: '12345678',
+        );
+        print('User signed in: $userCredential');
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: registerResponse.userData?.email ?? '',
+            password: '12345678',
+          );
+          print('User created: $userCredential');
+
+          await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+            'first_name': registerResponse.userData?.firstName ?? "",
+            'email': registerResponse.userData?.email ?? '',
+            'uid': userCredential.user?.uid,
+            'profile_image' : registerResponse.userData?.profileImage ?? ''
+          });
+        } else {
+          throw e;
+        }
+      }
+
+      if (userCredential.user != null) {
+        appStore.setLoading(false);
+        print("User successfully logged in/registered: ${tempRegisterData.email}");
+        await appStore.setLoginType(tempRegisterData.loginType!);
+        finish(context);
+      }
+    } catch (e) {
       appStore.setLoading(false);
-      toast(e.toString());
-    });
+      toast("Error: ${e.toString()}");
+      print("Error during user creation: $e");
+    } finally {
+
+      appStore.setLoading(false);
+    }
   }
+
 
   //endregion
 
@@ -341,18 +378,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           textColor: Colors.white,
           width: context.width() - context.navigationBarHeight,
           onTap: () {
-            if (widget.isOTPLogin) {
-              registerWithOTP();
-            } else {
               if(formKey.currentState!.validate()) {
-                appStore.setLoading(true);
-                Future.delayed(Duration(seconds: 3),() {
-                  appStore.setLoading(false);
-                  finish(context);
-                });
+                registerUser();
 
-              }
-              // registerUser();
             }
           },
         ),
@@ -431,24 +459,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
           scrolledUnderElevation: 0,
           systemOverlayStyle: SystemUiOverlayStyle(statusBarIconBrightness: appStore.isDarkMode ? Brightness.light : Brightness.dark, statusBarColor: context.scaffoldBackgroundColor),
         ),
-        body: Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
-            Form(
-              key: formKey,
-              autovalidateMode: isFirstTimeValidation ? AutovalidateMode.disabled : AutovalidateMode.onUserInteraction,
-              child: Column(
-                children: [
-                  20.height,
-                  _buildTopWidget(),
-                  _buildFormWidget(),
-                  8.height,
-                  _buildFooterWidget(),
-                ],
-              ).paddingAll(16),
-            ),
-            Observer(builder: (_) => LoaderWidget().center().visible(appStore.isLoading)),
-          ],
+        body: SingleChildScrollView(
+          child: Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              Form(
+                key: formKey,
+                autovalidateMode: isFirstTimeValidation ? AutovalidateMode.disabled : AutovalidateMode.onUserInteraction,
+                child: Column(
+                  children: [
+                    20.height,
+                    _buildTopWidget(),
+                    _buildFormWidget(),
+                    8.height,
+                    _buildFooterWidget(),
+                  ],
+                ).paddingAll(16),
+              ),
+              Observer(builder: (_) => LoaderWidget().center().visible(appStore.isLoading)),
+            ],
+          ),
         ),
       ),
     );
