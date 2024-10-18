@@ -11,6 +11,7 @@ import 'package:booking_system_flutter/utils/configs.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
+import 'package:booking_system_flutter/utils/validators/validators.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -223,10 +224,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
     } catch (e) {
       appStore.setLoading(false);
-      toast("Error: ${e.toString()}");
+      if(e.toString() == 'The email has already been taken.') {
+        toast("The Phone is already taken.");
+      } else {
+        toast('Something went wrong');
+      }
+
       print("Error during user creation: $e");
     } finally {
-
       appStore.setLoading(false);
     }
   }
@@ -293,7 +298,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           textFieldType: TextFieldType.PHONE,
           controller: emailCont,
           focus: emailFocus,
-          errorThisFieldRequired: language.requiredText,
+          validator: Validator.phoneNumberValidate,
           decoration: inputDecoration(context, labelText: language.hintContactNumberTxt),
           suffix: ic_calling.iconImage(size: 10).paddingAll(14),
         ),

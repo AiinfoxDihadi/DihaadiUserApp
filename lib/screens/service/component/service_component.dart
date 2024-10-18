@@ -143,11 +143,11 @@ class ServiceComponentState extends State<ServiceComponent> {
                 width: widget.width,
                 child: Row(
                   children: [
-                    widget.isFromViewAllService? 20.width : 5.width,
+                    widget.isFromViewAllService? 20.width : 4.width,
                     ImageBorder(
                       galley: false,
                         src: widget.serviceData.providerImage.validate(),
-                        height: 50),
+                        height: widget.isFromViewAllService ? 50 : 40),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -157,7 +157,7 @@ class ServiceComponentState extends State<ServiceComponent> {
                             .isNotEmpty)
                           Text(
                             widget.serviceData.providerName.validate(),
-                            style: boldTextStyle(size: 18),
+                            style: boldTextStyle(size: widget.isFromViewAllService ? 16 : 14),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),

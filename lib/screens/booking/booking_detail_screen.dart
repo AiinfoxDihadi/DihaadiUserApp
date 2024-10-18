@@ -1553,11 +1553,11 @@ class _BookingDetailScreenState extends State<BookingDetailScreen> {
                             package: snap.data!.bookingDetail!.bookingPackage),
 
                         /// Location
-                        locationTrackWidget(
-                          snap.data!.handymanData.validate(),
-                          snap.data!,
-                        ).visible(BookingStatusKeys.onGoing ==
-                            snap.data!.bookingDetail!.status),
+                        // locationTrackWidget(
+                        //   snap.data!.handymanData.validate(),
+                        //   snap.data!,
+                        // ).visible(BookingStatusKeys.onGoing ==
+                        //     snap.data!.bookingDetail!.status),
 
                         /// Description
                         descriptionWidget(value: snap.data!),

@@ -83,15 +83,6 @@ class BookingDetailProviderWidgetState extends State<BookingDetailProviderWidget
             Column(
               children: [
                 16.height,
-                TextIcon(
-                  spacing: 10,
-                  onTap: () {
-                    launchMail("${widget.providerData.email.validate()}");
-                  },
-                  prefix: Image.asset(ic_message, width: 20, height: 20, color: appStore.isDarkMode ? Colors.white : Colors.black),
-                  text: widget.providerData.email.validate(),
-                  expandedText: true,
-                ),
                 if (widget.providerData.address.validate().isNotEmpty)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
